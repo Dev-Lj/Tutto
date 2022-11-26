@@ -1,5 +1,6 @@
 package ch.uzh;
 
+import java.util.Iterator;
 import java.util.Scanner;
 
 import ch.uzh.deck.Deck;
@@ -66,7 +67,12 @@ public class Game {
                 this.end(currentPlayer);
             }
         }
-        // TODO add finished output
+        Iterator<Player> rankedPlayers = this.lobby.playerSortedByRank();
+        int rank = 1;
+        while (rankedPlayers.hasNext()) {
+            Player currentRankPlayer = rankedPlayers.next();
+            System.out.println(String.format("%d. %s: %d Points", rank++, currentRankPlayer.getName(), currentRankPlayer.getScore()));
+        }
     }
 
     public void end(Player winner) {
