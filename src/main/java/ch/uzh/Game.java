@@ -70,7 +70,7 @@ public class Game {
     }
 
     public void end(Player winner) {
-        // TODO set winner
+        this.lobby.setWinner(winner);
         this.finished = true;
     }
 
