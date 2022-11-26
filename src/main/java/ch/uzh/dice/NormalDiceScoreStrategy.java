@@ -49,14 +49,17 @@ public class NormalDiceScoreStrategy implements DiceScoreStrategy{
                     scoredDices.put(number, dice.get(number));
                 }
             }
-            else if((dice.get(number) / 3) > 0 )
+            else if((dice.get(number) / 3) == 1 )
             {
                 if (scoredDices.containsKey(number) == true) {
-                    scoredDices.put(number, dice.get(number) + scoredDices.get(number));
+                    scoredDices.put(number, 3 + scoredDices.get(number));
                 } else {
-                    scoredDices.put(number, dice.get(number));
+                    scoredDices.put(number, 3);
                 }
-            } 
+            }
+            else if ((dice.get(number) / 3) == 2) {
+                scoredDices.put(number, 6);
+            }
             else {
             }
         }
