@@ -1,6 +1,7 @@
 package ch.uzh.lobby;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -26,18 +27,6 @@ public class Player implements Comparable<Player> {
 
     public void addScore(int addition) {
         this.score += addition;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        // TODO Auto-generated method stub
-        return super.equals(obj);
-    }
-
-    @Override
-    public int hashCode() {
-        // TODO Auto-generated method stub
-        return super.hashCode();
     }
 
     public static char getCharacterInput(Character[] acceptedInputs, String message) {
@@ -101,4 +90,11 @@ public class Player implements Comparable<Player> {
     public int compareTo(Player o) {
         return name.compareTo(o.getName());
     }
+
+    public static Comparator<Player> RankComparator = new Comparator<Player>() {
+        @Override
+        public int compare(Player o1, Player o2) {
+            return o2.getScore() - o1.getScore();
+        }
+    };
 }

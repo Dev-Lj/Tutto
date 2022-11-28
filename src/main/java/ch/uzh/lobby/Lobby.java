@@ -15,6 +15,7 @@ public class Lobby {
     private final static int MIN_PLAYERS = 2;
     private final static int MAX_PLAYERS = 4;
     private final List<Player> players;
+    private int currentPlayerIndex = -1;
     private Optional<Player> winner = Optional.empty();
 
     private Lobby(List<Player> players) {
@@ -25,12 +26,11 @@ public class Lobby {
     public static Lobby createNewLobby() {
         List<Player> players;
         if(App.DEBUG_MODE) {
-            players = Arrays.asList(new Player("P1"), new Player("P2"));
+            players = Arrays.asList(new Player("Nataell"), new Player("David"), new Player("Jan"));
         } else {
             int nrOfPlayers = readNumberOfPlayers();
             players = createPlayers(nrOfPlayers);
         }
-        
         return new Lobby(players);
     }
 
@@ -84,13 +84,14 @@ public class Lobby {
     }
 
     public Player getNextPlayer() {
-        // TODO implement circular getNext over List
-        return null;
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        return players.get(currentPlayerIndex);
     }
 
-    public Iterator<Player> playerSortedByRank() {
-        // TODO sort a copy of Players and return. Winner is on top if not empty
-        return this.players.iterator();
+    public Iterator<Player> getPlayersSortedByRank() {
+        List<Player> playersSortedByRank = new ArrayList<>(players);
+        Collections.sort(playersSortedByRank, Player.RankComparator);
+        return playersSortedByRank.iterator();
     }
 
     public void setWinner(Player winner) {

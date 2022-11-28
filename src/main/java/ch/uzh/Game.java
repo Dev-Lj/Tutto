@@ -48,7 +48,7 @@ public class Game {
                 this.end(currentPlayer);
             }
         }
-        Iterator<Player> rankedPlayers = this.lobby.playerSortedByRank();
+        Iterator<Player> rankedPlayers = this.lobby.getPlayersSortedByRank();
         int rank = 1;
         while (rankedPlayers.hasNext()) {
             Player currentRankPlayer = rankedPlayers.next();

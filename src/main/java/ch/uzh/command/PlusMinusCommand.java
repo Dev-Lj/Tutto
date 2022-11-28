@@ -9,7 +9,7 @@ public class PlusMinusCommand implements Command{
 
     @Override
     public void execute(Game game, Player currentPlayer) {
-        Iterator<Player> players = game.getLobby().playerSortedByRank();
+        Iterator<Player> players = game.getLobby().getPlayersSortedByRank();
         
         boolean punishedAll = false;
         int winnerScore = 0;
