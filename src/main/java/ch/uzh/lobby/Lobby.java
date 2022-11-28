@@ -91,6 +91,10 @@ public class Lobby {
     public Iterator<Player> getPlayersSortedByRank() {
         List<Player> playersSortedByRank = new ArrayList<>(players);
         Collections.sort(playersSortedByRank, Player.RankComparator);
+        if(winner.isPresent()) {
+            playersSortedByRank.remove(winner.get());
+            playersSortedByRank.add(0, winner.get());
+        }
         return playersSortedByRank.iterator();
     }
 
