@@ -21,7 +21,7 @@ public class Player {
     }
 
     public void reduceScore(int reduction) {
-        this.score = this.score - reduction < 0 ? 0 : this.score - reduction;
+        this.score = Math.max(this.score - reduction, 0);
     }
 
     public void addScore(int addition) {
