@@ -1,7 +1,6 @@
 package ch.uzh;
 
 import java.util.Iterator;
-import java.util.Scanner;
 
 import ch.uzh.deck.Deck;
 import ch.uzh.lobby.Lobby;
