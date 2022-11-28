@@ -23,7 +23,10 @@ public class PlayerTurn {
             Command postTurnCommand = turnStrategy.playTurn();
             this.score += turnStrategy.getScore();
             postTurnCommand.execute(game, activePlayer);
-            // TODO if active ask player if he wants to play once more
+            char playerInput = Player.getCharacterInput(new Character[] {'D', 'E'}, "Draw new Card (D) or end turn (E): ");
+            if (playerInput == 'E') {
+                this.endTurn();
+            }
         }
     }
 
