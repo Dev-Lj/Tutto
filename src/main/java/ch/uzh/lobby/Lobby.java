@@ -3,6 +3,7 @@ package ch.uzh.lobby;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.InputMismatchException;    // TODO why not import java.util.*
@@ -18,7 +19,7 @@ public class Lobby {
 
     private Lobby(List<Player> players) {
         this.players = players;
-        // TODO sort by name here
+        Collections.sort(this.players);
     }
 
     public static Lobby createNewLobby() {

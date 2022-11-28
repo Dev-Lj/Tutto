@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class Player {
+public class Player implements Comparable<Player> {
     private int score;
     private final String name;
 
@@ -95,5 +95,10 @@ public class Player {
         }
         myInput.close();
         return output;
+    }
+
+    @Override
+    public int compareTo(Player o) {
+        return name.compareTo(o.getName());
     }
 }
