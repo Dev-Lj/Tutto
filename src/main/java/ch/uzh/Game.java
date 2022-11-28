@@ -24,30 +24,12 @@ public class Game {
         this.requiredScoreToWin = requiredScoreToWin;
     }
 
-    private static int readRequiredScore() {
-        boolean hasError = false;
-        int requiredScoreToWin = 0;
-        Scanner myInput = new Scanner( System.in );
-        while (hasError) {
-            try {
-                System.out.print( "Amount of points to win the game: " );
-                requiredScoreToWin = myInput.nextInt();
-                hasError = false;
-            } catch (Exception e) {
-                System.out.println("Invalid Input");
-                hasError = true;
-            }
-        }
-        myInput.close();
-        return requiredScoreToWin;
-    }
-
     public static Game createNewGame() {
         int requiredScoreToWin;
         if (App.DEBUG_MODE) {
             requiredScoreToWin = 6000;
         } else {
-            requiredScoreToWin = readRequiredScore();
+            requiredScoreToWin = Player.getNumberInput(0, 10000, "Amount of points to win the game: ");
         }
         return new Game(Deck.createDefaultDeck(), Lobby.createNewLobby() ,requiredScoreToWin);
     }
