@@ -54,6 +54,17 @@ public class Player implements Comparable<Player> {
         return (char) input.charAt(0);
     }
 
+    private static int getNumberInput(Scanner scanner, int min, int max, String message) {
+        System.out.print(message);
+        int output = scanner.nextInt();
+        if (output > max) {
+            throw new IllegalArgumentException(String.format("Input above defined maximum (%d)", max));
+        } else if (output < min) {
+            throw new IllegalArgumentException(String.format("Input below defined minimum (%d)", min));
+        }
+        return output;
+    }
+
     /**
      * Get integer input from user
      * @param scanner
@@ -61,21 +72,16 @@ public class Player implements Comparable<Player> {
      * @param max including
      * @param message
      * @return Number input from user
-     * @pre scanner != null && min != max && message != null
+     * @pre min != max && message != null
      */
-    public static int getNumberInput(Scanner scanner, int min, int max, String message) {
-        assert scanner != null && min != max && message != null;
+    public static int getNumberInput(int min, int max, String message) {
+        assert min != max && message != null;
+        Scanner scanner = new Scanner(System.in);
         boolean hasError = true;
         int output = 0;
         while (hasError) {
             try {
-                System.out.print(message);
-                output = scanner.nextInt();
-                if (output > max) {
-                    throw new IllegalArgumentException(String.format("Input above defined maximum (%d)", max));
-                } else if (output < min) {
-                    throw new IllegalArgumentException(String.format("Input below defined minimum (%d)", min));
-                }
+                output = getNumberInput(scanner, min, max, message);
                 hasError = false;
             } catch (Exception e) {
                 // TODO avoid null output

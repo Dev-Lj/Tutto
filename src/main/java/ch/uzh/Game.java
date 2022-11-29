@@ -29,7 +29,7 @@ public class Game {
         if (App.DEBUG_MODE) {
             requiredScoreToWin = 6000;
         } else {
-            requiredScoreToWin = Player.getNumberInput(new Scanner(System.in),0, 10000, "Amount of points to win the game: ");
+            requiredScoreToWin = Player.getNumberInput(0, 10000, "Amount of points to win the game: ");
         }
         return new Game(Deck.createDefaultDeck(), Lobby.createNewLobby() ,requiredScoreToWin);
     }
