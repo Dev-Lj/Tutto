@@ -1,6 +1,7 @@
 package ch.uzh;
 
 import java.util.Iterator;
+import java.util.Scanner;
 
 import ch.uzh.deck.Deck;
 import ch.uzh.lobby.Lobby;
@@ -28,7 +29,7 @@ public class Game {
         if (App.DEBUG_MODE) {
             requiredScoreToWin = 6000;
         } else {
-            requiredScoreToWin = Player.getNumberInput(0, 10000, "Amount of points to win the game: ");
+            requiredScoreToWin = Player.getNumberInput(new Scanner(System.in),0, 10000, "Amount of points to win the game: ");
         }
         return new Game(Deck.createDefaultDeck(), Lobby.createNewLobby() ,requiredScoreToWin);
     }
