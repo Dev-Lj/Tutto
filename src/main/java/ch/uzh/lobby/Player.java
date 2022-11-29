@@ -56,21 +56,21 @@ public class Player implements Comparable<Player> {
 
     /**
      * Get integer input from user
+     * @param scanner
      * @param min including
      * @param max including
      * @param message
      * @return Number input from user
-     * @pre min != max && message != null
+     * @pre scanner != null && min != max && message != null
      */
-    public static int getNumberInput(int min, int max, String message) {
-        assert min != max && message != null;
-        boolean hasError = false;
-        Scanner myInput = new Scanner( System.in );
+    public static int getNumberInput(Scanner scanner, int min, int max, String message) {
+        assert scanner != null && min != max && message != null;
+        boolean hasError = true;
         int output = 0;
         while (hasError) {
             try {
                 System.out.print(message);
-                output = myInput.nextInt();
+                output = scanner.nextInt();
                 if (output > max) {
                     throw new IllegalArgumentException(String.format("Input above defined maximum (%d)", max));
                 } else if (output < min) {
@@ -78,11 +78,12 @@ public class Player implements Comparable<Player> {
                 }
                 hasError = false;
             } catch (Exception e) {
+                // TODO avoid null output
                 System.out.println("Invalid Input: " + e.getMessage());
+                scanner.nextLine();
                 hasError = true;
             }
         }
-        myInput.close();
         return output;
     }
 
