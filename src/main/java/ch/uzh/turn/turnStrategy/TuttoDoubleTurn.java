@@ -2,8 +2,8 @@ package ch.uzh.turn.turnStrategy;
 
 import ch.uzh.command.Command;
 import ch.uzh.command.DoubleTurnScoreCommand;
+import ch.uzh.command.EndTurnCommand;
 import ch.uzh.command.LooseTurnCommand;
-import ch.uzh.command.NullCommand;
 
 public class TuttoDoubleTurn extends StoppableTurn{
 
@@ -18,6 +18,6 @@ public class TuttoDoubleTurn extends StoppableTurn{
             return new DoubleTurnScoreCommand();
         }
 
-        return new NullCommand();
+        return new EndTurnCommand();
     }
 }
