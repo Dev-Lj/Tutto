@@ -1,9 +1,6 @@
 package ch.uzh.lobby;
 
-import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
 
 public class Player implements Comparable<Player> {
     private int score;
@@ -27,70 +24,6 @@ public class Player implements Comparable<Player> {
 
     public void addScore(int addition) {
         this.score += addition;
-    }
-
-    public static char getCharacterInput(Character[] acceptedInputs, String message) {
-        List<Character> acceptedInputsList = Arrays.asList(acceptedInputs);
-        Boolean inputAccepted;
-        String input = "";
-        do {
-            try{
-                System.out.println(message);
-                input = System.console().readLine();
-                if (input.length() != 1){
-                    throw new IllegalArgumentException("Please only enter one character.");
-                }
-                if (!acceptedInputsList.contains(input.charAt(0))){
-                    throw new IllegalArgumentException("The character you entered wasn't one of the possible options.");
-                }
-                inputAccepted = true;
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                System.out.println("Let's try again...\n");
-                inputAccepted = false;
-            }
-        } while(!inputAccepted);
-
-        return (char) input.charAt(0);
-    }
-
-    private static int getNumberInput(Scanner scanner, int min, int max, String message) {
-        System.out.print(message);
-        int output = scanner.nextInt();
-        if (output > max) {
-            throw new IllegalArgumentException(String.format("Input above defined maximum (%d)", max));
-        } else if (output < min) {
-            throw new IllegalArgumentException(String.format("Input below defined minimum (%d)", min));
-        }
-        return output;
-    }
-
-    /**
-     * Get integer input from user
-     * @param scanner
-     * @param min including
-     * @param max including
-     * @param message
-     * @return Number input from user
-     * @pre min != max && message != null
-     */
-    public static int getNumberInput(int min, int max, String message) {
-        assert min != max && message != null;
-        Scanner scanner = new Scanner(System.in);
-        boolean hasError = true;
-        int output = 0;
-        while (hasError) {
-            try {
-                output = getNumberInput(scanner, min, max, message);
-                hasError = false;
-            } catch (Exception e) {
-                // TODO avoid null output
-                System.out.println("Invalid Input: " + e.getMessage());
-                scanner.nextLine();
-                hasError = true;
-            }
-        }
-        return output;
     }
 
     @Override
