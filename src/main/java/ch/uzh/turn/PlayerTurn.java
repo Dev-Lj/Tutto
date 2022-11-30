@@ -19,13 +19,16 @@ public class PlayerTurn {
     public void playTurn() {
         while (active) {
             Card currentCard = game.getDeck().drawCard();
+            System.out.println(String.format("You have drawn: %s", currentCard.getName()));
             TurnStrategy turnStrategy = currentCard.getStrategy();
             Command postTurnCommand = turnStrategy.playTurn();
             this.score += turnStrategy.getScore();
             postTurnCommand.execute(game, activePlayer);
-            char playerInput = Player.getCharacterInput(new Character[] {'D', 'E'}, "Draw new Card (D) or end turn (E): ");
-            if (playerInput == 'E') {
-                this.endTurn();
+            if (active) {
+                char playerInput = Player.getCharacterInput(new Character[] {'D', 'E'}, "Draw new Card (D) or end turn (E): ");
+                if (playerInput == 'E') {
+                    this.endTurn();
+                }
             }
         }
     }
