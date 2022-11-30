@@ -11,7 +11,7 @@ public class Deck {
         this.cards = cards;
     }
 
-    public static Deck createDefaultDeck() {
+    public static List<Card> getDefaultCards() {
         Map<Card, Integer> cardFrequencies = new HashMap<>()
         {{
             put(new Card("Bonus 200", new TuttoBonusTurn(200)), 5);
@@ -33,6 +33,11 @@ public class Deck {
                 defaultCards.add(card.getKey());
             }
         }
+        return defaultCards;
+    }
+
+    public static Deck createDefaultDeck() {
+        List<Card> defaultCards = getDefaultCards();
         Collections.shuffle(defaultCards);
 
         return new Deck(defaultCards);
