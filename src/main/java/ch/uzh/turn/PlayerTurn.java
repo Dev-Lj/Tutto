@@ -1,5 +1,6 @@
 package ch.uzh.turn;
 
+import ch.uzh.ConsoleInput;
 import ch.uzh.Game;
 import ch.uzh.command.Command;
 import ch.uzh.deck.Card;
@@ -25,7 +26,7 @@ public class PlayerTurn {
             this.score += turnStrategy.getScore();
             postTurnCommand.execute(game, activePlayer);
             if (active) {
-                char playerInput = Player.getCharacterInput(new Character[] {'D', 'E'}, "Draw new Card (D) or end turn (E): ");
+                char playerInput = ConsoleInput.instance().getCharacterInput(new Character[] {'D', 'E'}, "Draw new Card (D) or end turn (E): ");
                 if (playerInput == 'E') {
                     this.endTurn();
                 }

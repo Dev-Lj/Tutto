@@ -28,7 +28,7 @@ public class Game {
         if (App.DEBUG_MODE) {
             requiredScoreToWin = 6000;
         } else {
-            requiredScoreToWin = Player.getNumberInput(0, 10000, "Amount of points to win the game: ");
+            requiredScoreToWin = ConsoleInput.instance().getNumberInput(0, 10000, "Amount of points to win the game: ");
         }
         return new Game(Deck.createDefaultDeck(), Lobby.createNewLobby() ,requiredScoreToWin);
     }
@@ -45,7 +45,7 @@ public class Game {
     private void awaitRollDice() {
         boolean rolledDice = false;
         while (!rolledDice) {
-            char input = Player.getCharacterInput(new Character[]{'R', 'D'}, "Roll the dice or display current scores? (R/D)");
+            char input = ConsoleInput.instance().getCharacterInput(new Character[]{'R', 'D'}, "Roll the dice or display current scores? (R/D)");
             if (input == 'D') {
                 printPlayerRanking();
             } else {
