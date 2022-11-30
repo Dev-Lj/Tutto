@@ -1,7 +1,6 @@
 package ch.uzh;
 
 import java.util.Iterator;
-import java.util.Scanner;
 
 import ch.uzh.deck.Deck;
 import ch.uzh.lobby.Lobby;
@@ -34,12 +33,36 @@ public class Game {
         return new Game(Deck.createDefaultDeck(), Lobby.createNewLobby() ,requiredScoreToWin);
     }
 
+    private void printPlayerRanking() {
+        Iterator<Player> rankedPlayers = this.lobby.getPlayersSortedByRank();
+        int rank = 1;
+        while (rankedPlayers.hasNext()) {
+            Player currentRankPlayer = rankedPlayers.next();
+            System.out.println(String.format("%d. %s: %d Points", rank++, currentRankPlayer.getName(), currentRankPlayer.getScore()));
+        }
+    }
+
+    private void awaitRollDice() {
+        boolean rolledDice = false;
+        while (!rolledDice) {
+            char input = Player.getCharacterInput(new Character[]{'R', 'D'}, "Roll the dice or display current scores? (R/D)");
+            if (input == 'D') {
+                printPlayerRanking();
+            } else {
+                rolledDice = true;
+            }
+
+        }
+    }
+
     /**
      * Main game loop
      */
     public void play() {
         while (!finished) {
             Player currentPlayer = lobby.getNextPlayer();
+            System.out.println(String.format("Hey, %s it is your turn.", currentPlayer.getName()));
+            awaitRollDice();
             // TODO Don't like this, tight coupling, improve
             currentTurn = new PlayerTurn(currentPlayer, this);
             currentTurn.playTurn();
@@ -49,12 +72,7 @@ public class Game {
                 this.end(currentPlayer);
             }
         }
-        Iterator<Player> rankedPlayers = this.lobby.getPlayersSortedByRank();
-        int rank = 1;
-        while (rankedPlayers.hasNext()) {
-            Player currentRankPlayer = rankedPlayers.next();
-            System.out.println(String.format("%d. %s: %d Points", rank++, currentRankPlayer.getName(), currentRankPlayer.getScore()));
-        }
+        printPlayerRanking();
     }
 
     public void end(Player winner) {
