@@ -17,16 +17,10 @@ public class StraightDiceScoreStrategy implements DiceScoreStrategy {
         return scoredDices;
     }
 
+
     @Override
     public int calculateRemainingDice(Map<Integer, Integer> scoredDices, int initialDice) {
-        int remainingDice = initialDice;
-        for (int number : scoredDices.keySet()) {
-            if (scoredDices.containsKey(number) == true) {
-                remainingDice--;
-            } else {
-                continue;
-            }
-        }
+        int remainingDice = initialDice - scoredDices.keySet().size();
         return remainingDice;
     }
         
