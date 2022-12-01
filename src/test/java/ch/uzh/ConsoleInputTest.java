@@ -3,57 +3,143 @@ package ch.uzh;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Scanner;
 
 import org.junit.jupiter.api.Test;
 
 public class ConsoleInputTest {
 
-    void setUserInput(String input) {
-        InputStream in = new ByteArrayInputStream(input.getBytes());
-        System.setIn(in);
-    }
+    private ConsoleInput testInput = ConsoleInput.instance();
 
-    @Test
-    void testGetNumberInput() {
-        setUserInput("5");
-        ConsoleInput testInput = ConsoleInput.instance();
-        int output = testInput.getNumberInput(0, 6, "");
-        assertEquals(5, output);
-    }
-
-    @Test
-    void testGetNumberInput_belowMin() throws NoSuchMethodException, SecurityException, IllegalAccessException, InvocationTargetException {
-        setUserInput("-1");
-        ConsoleInput testInput = ConsoleInput.instance();
-        Method method = testInput.getClass().getDeclaredMethod("readNumberInput", Integer.TYPE, Integer.TYPE, String.class);
+    private int readNumberInput(String input, int min, int max) throws Throwable {
+        Method method = testInput.getClass().getDeclaredMethod("readNumberInput", Scanner.class, Integer.TYPE, Integer.TYPE, String.class);
         method.setAccessible(true);
         try {
-            method.invoke(testInput, 0, 10, "");
+            return (int) method.invoke(testInput, new Scanner(input), min, max, "");
         } catch (InvocationTargetException e) {
-            assertEquals(IllegalArgumentException.class, e.getCause().getClass());
+            throw e.getCause();
+        }
+    }
+
+    private String readStringInput(String input, int minLength, int maxLength) throws Throwable {
+        Method method = testInput.getClass().getDeclaredMethod("readStringInput", Scanner.class, Integer.TYPE, Integer.TYPE, String.class);
+        method.setAccessible(true);
+        try {
+            return (String) method.invoke(testInput, new Scanner(input), minLength, maxLength, "");
+        } catch (InvocationTargetException e) {
+            throw e.getCause();
+        }
+    }
+
+    @Test
+    void testReadNumberInput() {
+        try {
+            int result = readNumberInput("3", 0, 5);
+            assertEquals(3, result);
+        } catch (Throwable e) {
+            fail();
+        }
+    }
+
+    @Test
+    void testReadNumberInput_String() {
+        try {
+            readNumberInput("test", 0, 5);
+            fail();
+        } catch (Throwable e) {
+            assertEquals(IllegalArgumentException.class, e.getClass());
+        }
+    }
+
+    @Test
+    void testReadNumberInput_belowMin() {
+        try {
+            readNumberInput("-1", 0, 10);
+        } catch (Throwable e) {
+            assertEquals(IllegalArgumentException.class, e.getClass());
             return;
         }
-        // no exception was thrown, which means the test must fail
+        // no or wrong exception was thrown, which means the test must fail
         fail();
     }
     
     @Test
-    void testGetNumberInput_aboveMax() throws NoSuchMethodException, SecurityException, IllegalAccessException, InvocationTargetException {
-        setUserInput("11");
-        ConsoleInput testInput = ConsoleInput.instance();
-        Method method = testInput.getClass().getDeclaredMethod("readNumberInput", Integer.TYPE, Integer.TYPE, String.class);
-        method.setAccessible(true);
+    void testReadNumberInput_aboveMax() throws NoSuchMethodException, SecurityException, IllegalAccessException, InvocationTargetException {
+
         try {
-            method.invoke(testInput, 0, 10, "");
-        } catch (InvocationTargetException e) {
-            assertEquals(IllegalArgumentException.class, e.getCause().getClass());
+            readNumberInput("11", 0, 10);
+        } catch (Throwable e) {
+            assertEquals(IllegalArgumentException.class, e.getClass());
             return;
         }
-        // no exception was thrown, which means the test must fail
+        // no or wrong exception was thrown, which means the test must fail
         fail();
     }
+
+    @Test
+    void testReadStringInput() {
+        try {
+            String result = readStringInput("Test", 0, 100);
+            assertEquals("Test", result);
+        } catch (Throwable e) {
+            fail();
+        }
+    }
+
+    @Test
+    void testReadStringInput_belowMin() {
+        try {
+            readStringInput("T", 2, 100);
+            fail();
+        } catch (Throwable e) {
+            assertEquals(IllegalArgumentException.class, e.getClass());
+        }
+    }
+
+    @Test
+    void testReadStringInput_aboveMax() {
+        try {
+            readStringInput("Testing", 2, 5);
+            fail();
+        } catch (Throwable e) {
+            assertEquals(IllegalArgumentException.class, e.getClass());
+        }
+    }
+
+    @Test
+    void testGetCharacterInput_closed() {
+        testInput.close();
+        try {
+            testInput.getCharacterInput(new Character[]{'T', 'N'}, "Test");
+            fail();
+        } catch (Exception e) {
+            assertEquals(IllegalStateException.class, e.getClass());
+        }
+    }
+
+    @Test
+    void testGetNumberInput_closed() {
+        testInput.close();
+        try {
+            testInput.getNumberInput(0,1, "Test");
+            fail();
+        } catch (Exception e) {
+            assertEquals(IllegalStateException.class, e.getClass());
+        }
+    }
+
+    @Test
+    void testGetStringInput_closed() {
+        testInput.close();
+        try {
+            testInput.getStringInput(0,1, "Test");
+            fail();
+        } catch (Exception e) {
+            assertEquals(IllegalStateException.class, e.getClass());
+        }
+    }
+
+
 }

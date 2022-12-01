@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class ConsoleInput {
     private static ConsoleInput instance;
 
-    private final Scanner scanner;
+    private Scanner scanner;
     private boolean closed = false;
 
     private ConsoleInput(){
@@ -30,7 +30,7 @@ public class ConsoleInput {
      * @pre message != null
      * @return input string
      */
-    private String readStringInput(int minLength, int maxLength, String message) {
+    private String readStringInput(Scanner scanner, int minLength, int maxLength, String message) {
         assert message != null;
         System.out.print(message);
         String input = scanner.nextLine();
@@ -50,13 +50,13 @@ public class ConsoleInput {
      * @return
      * @throws IllegalArgumentException
      */
-    private int readNumberInput(int min, int max, String message) throws IllegalArgumentException{
+    private int readNumberInput(Scanner scanner, int min, int max, String message) throws IllegalArgumentException{
         assert message != null;
         System.out.print(message);
         int input;
         try {
-            input = scanner.nextInt();
-            scanner.nextLine();
+            String stringInput = scanner.nextLine();
+            input = Integer.parseInt(stringInput);
         } catch (Exception e) {
             throw new IllegalArgumentException("Please enter a number");
         }
@@ -89,7 +89,7 @@ public class ConsoleInput {
         char input = acceptedInputs[0];
         while(!inputAccepted) {
             try{
-                input = readStringInput(1, 1, message).charAt(0);
+                input = readStringInput(scanner, 1, 1, message).charAt(0);
                 if(!acceptedInputsList.contains(input)) {
                     throw new IllegalArgumentException("Entered character not in accepted inputs.");
                 }
@@ -122,7 +122,7 @@ public class ConsoleInput {
         int output = 0;
         while (hasError) {
             try {
-                output = readNumberInput(min, max, message);
+                output = readNumberInput(scanner, min, max, message);
                 hasError = false;
             } catch (Exception e) {
                 System.out.println("Invalid Input: " + e.getMessage());
@@ -142,7 +142,7 @@ public class ConsoleInput {
         String input = "";
         while (hasError) {
             try {
-                input = readStringInput(minLength, maxLength, message);
+                input = readStringInput(scanner, minLength, maxLength, message);
                 hasError = false;
             } catch (Exception e) {
                 System.out.println("Invalid Input: " + e.getMessage());
