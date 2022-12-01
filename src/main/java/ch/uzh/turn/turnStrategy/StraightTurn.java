@@ -10,17 +10,16 @@ import ch.uzh.turn.TurnStrategy;
 
 public class StraightTurn implements TurnStrategy{
     private int score;
-    private DiceManager aDiceManager;
 
     public StraightTurn(){
         this.score = 0;
-        this.aDiceManager = new DiceManager(6, new StraightDiceScoreStrategy());
     };
 
     @Override
-    public Command playTurn(PlayerTurn currentTurn) {       
+    public Command playTurn(PlayerTurn currentTurn) {
+        DiceManager aDiceManager = new DiceManager(6, new StraightDiceScoreStrategy());
         aDiceManager = turnLoop(aDiceManager, ConsoleInput.instance());
-        return evaluateTurn(aDiceManager, currentTurn); //evaluateTurn returns Command
+        return evaluateTurn(currentTurn, aDiceManager); //evaluateTurn returns Command
     }
 
     private DiceManager turnLoop(DiceManager aDiceManager, ConsoleInput aConsoleInput){
@@ -37,7 +36,7 @@ public class StraightTurn implements TurnStrategy{
         return aDiceManager;
     }
 
-    private Command evaluateTurn(DiceManager aDiceManager, PlayerTurn currentTurn){
+    private Command evaluateTurn(PlayerTurn currentTurn, DiceManager aDiceManager){
         if (aDiceManager.isTutto()){
             score = 2000;
         } else {
