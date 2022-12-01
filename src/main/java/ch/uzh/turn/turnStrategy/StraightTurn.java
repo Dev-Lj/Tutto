@@ -51,9 +51,5 @@ public class StraightTurn implements TurnStrategy{
     public int getScore() {
         return score;
     }
-
-    private void setScore(int aScore) {
-        this.score = aScore;
-    }
     
 }
