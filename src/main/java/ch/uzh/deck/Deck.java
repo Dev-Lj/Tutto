@@ -26,7 +26,6 @@ public class Deck {
             put(new Card("Cloverleaf", new CloverleafTurn()), 1);
             put(new Card("Straight", new StraightTurn()), 5);
         }};
-
         List<Card> defaultCards = new ArrayList<>();
         for(Map.Entry<Card, Integer> card : cardFrequencies.entrySet()) {
             for(int i = 0; i < card.getValue(); i++) {
@@ -39,7 +38,6 @@ public class Deck {
     public static Deck createDefaultDeck() {
         List<Card> defaultCards = getDefaultCards();
         Collections.shuffle(defaultCards);
-
         return new Deck(defaultCards);
     }
 
@@ -48,11 +46,4 @@ public class Deck {
         cards.add(drawnCard);
         return drawnCard;
     }
-
-    // TODO what is this used for?
-    public void shuffle() {
-        Collections.shuffle(cards);
-    }
-
-
 }
