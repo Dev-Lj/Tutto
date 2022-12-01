@@ -1,23 +1,22 @@
 package ch.uzh.turn.turnStrategy;
 
 import ch.uzh.command.Command;
-import ch.uzh.command.DoubleTurnScoreCommand;
-import ch.uzh.command.EndTurnCommand;
-import ch.uzh.command.LooseTurnCommand;
+import ch.uzh.command.NullCommand;
+import ch.uzh.turn.PlayerTurn;
 
 public class TuttoDoubleTurn extends StoppableTurn{
 
     @Override
-    public Command playTurn() {
+    public Command playTurn(PlayerTurn currentTurn) {
         super.playStoppableTurn();
         if (super.hasLost()) {
-            return new LooseTurnCommand();
+            currentTurn.looseTurn();;
+        } else if (super.isTutto()) {
+            currentTurn.setScore(currentTurn.getScore()*2);
+        } else {
+            currentTurn.endTurn();
         }
 
-        if (super.isTutto()) {
-            return new DoubleTurnScoreCommand();
-        }
-
-        return new EndTurnCommand();
+        return new NullCommand();
     }
 }

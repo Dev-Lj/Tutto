@@ -1,37 +1,18 @@
 package ch.uzh.turn;
 
-import ch.uzh.ConsoleInput;
-import ch.uzh.Game;
 import ch.uzh.command.Command;
 import ch.uzh.deck.Card;
-import ch.uzh.lobby.Player;
 
 public class PlayerTurn {
     private int score;
     private boolean active = true;
-    private final Player activePlayer;
-    private final Game game;
 
-    public PlayerTurn(Player activePlayer, Game game) {
-        this.activePlayer = activePlayer;
-        this.game = game;
-    }
-
-    public void playTurn() {
-        while (active) {
-            Card currentCard = game.getDeck().drawCard();
-            System.out.println(String.format("You have drawn: %s", currentCard.getName()));
-            TurnStrategy turnStrategy = currentCard.getStrategy();
-            Command postTurnCommand = turnStrategy.playTurn();
-            this.score += turnStrategy.getScore();
-            postTurnCommand.execute(game, activePlayer);
-            if (active) {
-                char playerInput = ConsoleInput.instance().getCharacterInput(new Character[] {'D', 'E'}, "Draw new Card (D) or end turn (E): ");
-                if (playerInput == 'E') {
-                    this.endTurn();
-                }
-            }
-        }
+    public Command playTurn(Card currentCard) {
+        System.out.println(String.format("You have drawn: %s", currentCard.getName()));
+        TurnStrategy turnStrategy = currentCard.getStrategy();
+        Command postTurnCommand = turnStrategy.playTurn(this);
+        this.score += turnStrategy.getScore();
+        return postTurnCommand;
     }
 
     public void endTurn() {
@@ -44,5 +25,14 @@ public class PlayerTurn {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void looseTurn() {
+        this.endTurn();
+        this.setScore(0);
     }
 }

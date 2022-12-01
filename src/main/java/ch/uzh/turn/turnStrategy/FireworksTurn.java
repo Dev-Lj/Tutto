@@ -4,16 +4,17 @@ import java.util.Arrays;
 import java.util.List;
 
 import ch.uzh.command.Command;
-import ch.uzh.command.LooseTurnCommand;
+import ch.uzh.command.NullCommand;
 import ch.uzh.dice.DiceManager;
 import ch.uzh.dice.NormalDiceScoreStrategy;
+import ch.uzh.turn.PlayerTurn;
 import ch.uzh.turn.TurnStrategy;
 
 public class FireworksTurn implements TurnStrategy{
     private int score;
 
     @Override
-    public Command playTurn() {
+    public Command playTurn(PlayerTurn currentTurn) {
         boolean isTutto;
         do{
             DiceManager aDiceManager = new DiceManager(6, new NormalDiceScoreStrategy());
@@ -33,7 +34,8 @@ public class FireworksTurn implements TurnStrategy{
             isTutto = aDiceManager.isTutto();
             
         } while(isTutto);
-        return new LooseTurnCommand();
+        currentTurn.endTurn();
+        return new NullCommand();
     }
 
     @Override

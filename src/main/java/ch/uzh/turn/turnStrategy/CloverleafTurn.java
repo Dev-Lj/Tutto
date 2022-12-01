@@ -5,15 +5,16 @@ import java.util.List;
 
 import ch.uzh.command.Command;
 import ch.uzh.command.EndGameCommand;
-import ch.uzh.command.LooseTurnCommand;
+import ch.uzh.command.NullCommand;
 import ch.uzh.dice.DiceManager;
 import ch.uzh.dice.NormalDiceScoreStrategy;
+import ch.uzh.turn.PlayerTurn;
 import ch.uzh.turn.TurnStrategy;
 
 public class CloverleafTurn implements TurnStrategy{
 
     @Override
-    public Command playTurn() {
+    public Command playTurn(PlayerTurn currentTurn) {
         for (int i=0; i<2; i++){
             DiceManager aDiceManager = new DiceManager(6, new NormalDiceScoreStrategy());
             while(!aDiceManager.hadNullTurn() && !aDiceManager.isTutto()){
@@ -26,7 +27,8 @@ public class CloverleafTurn implements TurnStrategy{
                 aDiceManager.printScoredDices();
             }
             if (aDiceManager.hadNullTurn()){
-                return new LooseTurnCommand();
+                currentTurn.endTurn();
+                return new NullCommand();
             }            
         }
         return new EndGameCommand();

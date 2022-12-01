@@ -8,13 +8,14 @@ import ch.uzh.command.NullCommand;
 import ch.uzh.command.PlusMinusCommand;
 import ch.uzh.dice.DiceManager;
 import ch.uzh.dice.NormalDiceScoreStrategy;
+import ch.uzh.turn.PlayerTurn;
 import ch.uzh.turn.TurnStrategy;
 
 public class PlusMinusTurn implements TurnStrategy {
     private int score;
 
     @Override
-    public Command playTurn() {
+    public Command playTurn(PlayerTurn currentTurn) {
         DiceManager aDiceManager = new DiceManager(6, new NormalDiceScoreStrategy());
 
         while(!aDiceManager.hadNullTurn() && !aDiceManager.isTutto()){
