@@ -2,6 +2,8 @@ package ch.uzh;
 
 import java.util.Iterator;
 
+import ch.uzh.command.Command;
+import ch.uzh.deck.Card;
 import ch.uzh.deck.Deck;
 import ch.uzh.lobby.Lobby;
 import ch.uzh.lobby.Player;
@@ -15,7 +17,6 @@ public class Game {
     private final Lobby lobby;
     private final int requiredScoreToWin;
     private boolean finished = false;
-    private PlayerTurn currentTurn;
 
     private Game(Deck deck, Lobby lobby, int requiredScoreToWin) {
         this.deck = deck;
@@ -55,6 +56,20 @@ public class Game {
         }
     }
 
+    private void playTurn(Player currentPlayer, PlayerTurn currentTurn) {
+        while (currentTurn.isActive()) {
+            Card card = deck.drawCard();
+            Command postTurnCommand = currentTurn.playTurn(card);
+            postTurnCommand.execute(this, currentPlayer);
+            if (currentTurn.isActive()) {
+                char playerInput = ConsoleInput.instance().getCharacterInput(new Character[] {'D', 'E'}, "Draw new Card (D) or end turn (E): ");
+                if (playerInput == 'E') {
+                    currentTurn.endTurn();
+                }
+            }
+        }
+    }
+
     /**
      * Main game loop
      */
@@ -63,9 +78,8 @@ public class Game {
             Player currentPlayer = lobby.getNextPlayer();
             System.out.println(String.format("Hey, %s it is your turn.", currentPlayer.getName()));
             awaitRollDice();
-            // TODO Don't like this, tight coupling, improve
-            currentTurn = new PlayerTurn(currentPlayer, this);
-            currentTurn.playTurn();
+            PlayerTurn currentTurn = new PlayerTurn();
+            playTurn(currentPlayer, currentTurn);
             currentPlayer.addScore(currentTurn.getScore());
             if (currentPlayer.getScore() >= requiredScoreToWin) {
                 // TODO finish round
@@ -86,9 +100,5 @@ public class Game {
 
     public Lobby getLobby() {
         return lobby;
-    }
-
-    public PlayerTurn getCurrentTurn() {
-        return currentTurn;
     }
 }

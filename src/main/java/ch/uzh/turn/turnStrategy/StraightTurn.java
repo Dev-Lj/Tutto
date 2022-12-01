@@ -4,17 +4,17 @@ import java.util.Arrays;
 import java.util.List;
 
 import ch.uzh.command.Command;
-import ch.uzh.command.LooseTurnCommand;
 import ch.uzh.command.NullCommand;
 import ch.uzh.dice.DiceManager;
 import ch.uzh.dice.StraightDiceScoreStrategy;
+import ch.uzh.turn.PlayerTurn;
 import ch.uzh.turn.TurnStrategy;
 
 public class StraightTurn implements TurnStrategy{
     int score;
 
     @Override
-    public Command playTurn() {
+    public Command playTurn(PlayerTurn currentTurn) {
         DiceManager aDiceManager = new DiceManager(6, new StraightDiceScoreStrategy());
 
         while(!aDiceManager.hadNullTurn() && !aDiceManager.isTutto()){
@@ -29,11 +29,11 @@ public class StraightTurn implements TurnStrategy{
 
         if (aDiceManager.isTutto()){
             score = 2000;
-            return new NullCommand();
         } else {
             score = 0;
-            return new LooseTurnCommand();
+            currentTurn.looseTurn();
         }
+        return new NullCommand();
     }
 
     @Override

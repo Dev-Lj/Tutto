@@ -1,9 +1,8 @@
 package ch.uzh.turn.turnStrategy;
 
 import ch.uzh.command.Command;
-import ch.uzh.command.EndTurnCommand;
-import ch.uzh.command.LooseTurnCommand;
 import ch.uzh.command.NullCommand;
+import ch.uzh.turn.PlayerTurn;
 
 public class TuttoBonusTurn extends StoppableTurn{
     private final int bonus;
@@ -13,14 +12,14 @@ public class TuttoBonusTurn extends StoppableTurn{
     }
 
     @Override
-    public Command playTurn() {
+    public Command playTurn(PlayerTurn currentTurn) {
         super.playStoppableTurn();
         if (super.hasLost()) {
-            return new LooseTurnCommand();
-        } else if (super.isTutto()) {
-            return new NullCommand();
+            currentTurn.looseTurn();
+        } else if (!super.isTutto()) {
+            currentTurn.endTurn();
         }
-        return new EndTurnCommand();
+        return new NullCommand();
     }
 
     @Override
