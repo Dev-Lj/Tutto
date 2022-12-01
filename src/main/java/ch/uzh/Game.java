@@ -100,4 +100,8 @@ public class Game {
     public Lobby getLobby() {
         return lobby;
     }
+
+    public boolean isFinished() {
+        return finished;
+    }
 }
