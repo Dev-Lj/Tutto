@@ -38,7 +38,10 @@ public class DiceManager {
         this.remainingDice = scoreStrategy.calculateRemainingDice(this.scoredDices, this.initialDice);
     }
 
-    /*prints all the dices so far scored*/
+    public void setFakeRandom(Random rand) {
+        this.rand = rand;
+    }
+
     public void printScoredDices() {
         System.out.print("Dices scored so far");
         System.out.println();

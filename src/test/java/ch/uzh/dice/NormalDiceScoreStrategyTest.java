@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 public class NormalDiceScoreStrategyTest {
     NormalDiceScoreStrategy NDSS = new NormalDiceScoreStrategy();
-
     @Test
     public void calculateDiceScore() {
         Map<Integer, Integer> dicees = new HashMap<Integer, Integer>();
@@ -27,7 +26,8 @@ public class NormalDiceScoreStrategyTest {
         dicees.clear();
         dicees.put(2, 2);
         dicees.put(3, 2);
-        dicees.put(4, 2);
+        dicees.put(4, 1);
+        dicees.put(6, 1);
         assertEquals(0, NDSS.calculateDiceScore(dicees));
         dicees.clear();
         dicees.put(4, 3);
@@ -120,7 +120,8 @@ public class NormalDiceScoreStrategyTest {
         dicees.clear();
         dicees.put(2, 2);
         dicees.put(3, 2);
-        dicees.put(4, 2);
+        dicees.put(4, 1);
+        dicees.put(6, 1);
         assertEquals(0, NDSS.calculateRemainingDice(dicees,6));
         dicees.clear();
         dicees.put(4, 3);
