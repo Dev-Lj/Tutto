@@ -56,6 +56,7 @@ public class ConsoleInput {
         int input;
         try {
             input = scanner.nextInt();
+            scanner.nextLine();
         } catch (Exception e) {
             throw new IllegalArgumentException("Please enter a number");
         }

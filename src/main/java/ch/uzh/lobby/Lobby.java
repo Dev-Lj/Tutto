@@ -6,10 +6,9 @@ import java.util.Iterator;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.InputMismatchException;    // TODO why not import java.util.*
-import java.util.Scanner;   // TODO coherent use of scanners
 
 import ch.uzh.App;
+import ch.uzh.ConsoleInput;
 
 public class Lobby {
     private final static int MIN_PLAYERS = 2;
@@ -28,58 +27,19 @@ public class Lobby {
         if(App.DEBUG_MODE) {
             players = Arrays.asList(new Player("Nataell"), new Player("David"), new Player("Jan"));
         } else {
-            int nrOfPlayers = readNumberOfPlayers();
+            int nrOfPlayers = ConsoleInput.instance().getNumberInput(MIN_PLAYERS, MAX_PLAYERS, String.format("Number of players [%d-%d]: ", MIN_PLAYERS, MAX_PLAYERS));
             players = createPlayers(nrOfPlayers);
         }
         return new Lobby(players);
     }
 
-    private static int readNumberOfPlayers() {
-        boolean hasError = true;
-        int playerCount = 0;
-        Scanner scanner = new Scanner(System.in);
-        while (hasError) {
-            try {
-                System.out.print("Number of players [2-4]: ");
-                playerCount = scanner.nextInt();
-                if(playerCount < MIN_PLAYERS || playerCount > MAX_PLAYERS) {
-                    throw new InputMismatchException();
-                }
-                hasError = false;
-            } catch(InputMismatchException e) {
-                System.out.println("Invalid input.");
-                scanner.nextLine();
-                hasError = true;
-            }
-        }
-        //scanner.close();
-        return playerCount;
-    }
-
     private static List<Player> createPlayers(int nrOfPlayers) {
-        List<Player> players = new ArrayList<Player>();
-        Scanner scanner = new Scanner(System.in);
+        List<Player> players = new ArrayList<>();
         for(int i = 1; i <= nrOfPlayers; i++) {
-            boolean hasError = true;
-            while (hasError) {
-                try {
-                    System.out.print("Enter name of player " + i + "/" + nrOfPlayers + ": ");
-                    String name = scanner.nextLine();
-                    for(Player player : players) {
-                        if(name.equals(player.getName()) || name.isBlank()) {
-                            throw new InputMismatchException();
-                        }
-                    }
-                    Player player = new Player(name);
-                    players.add(player);
-                    hasError = false;
-                } catch(InputMismatchException e) {
-                    System.out.println("Invalid input.");
-                    hasError = true;
-                }
-            }
+            String name = ConsoleInput.instance().getStringInput(1, 20, String.format("Enter name of player %d/%d: ", i, nrOfPlayers));
+            Player player = new Player(name);
+            players.add(player);
         }
-        //scanner.close();
         return players;
     }
 

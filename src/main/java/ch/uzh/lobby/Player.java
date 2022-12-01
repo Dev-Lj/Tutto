@@ -18,11 +18,19 @@ public class Player implements Comparable<Player> {
         return score;
     }
 
+    /**
+     * @pre addition >= 0
+     */
     public void reduceScore(int reduction) {
+        assert reduction >= 0;
         this.score = Math.max(this.score - reduction, 0);
     }
 
+    /**
+     * @pre addition >= 0
+     */
     public void addScore(int addition) {
+        assert addition >= 0;
         this.score += addition;
     }
 
@@ -31,7 +39,7 @@ public class Player implements Comparable<Player> {
         return name.compareTo(o.getName());
     }
 
-    public static Comparator<Player> RankComparator = new Comparator<Player>() {
+    public static Comparator<Player> RankComparator = new Comparator<>() {
         @Override
         public int compare(Player o1, Player o2) {
             return o2.getScore() - o1.getScore();

@@ -1,11 +1,12 @@
 package ch.uzh.dice;
+/*
 import org.mockito.Mockito;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.isNotNull;
 import java.util.Random;
 import org.junit.jupiter.api.Test;
-
+*/
 
 public class DiceManagerTest {
     /*@Test
@@ -20,6 +21,8 @@ public class DiceManagerTest {
     }
     */
     //moc object diceManager
+    /*
     DiceManager DM = Mockito.mock(DiceManager.class);
+     */
 
 }

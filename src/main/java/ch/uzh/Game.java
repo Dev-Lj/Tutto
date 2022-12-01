@@ -52,7 +52,6 @@ public class Game {
             } else {
                 rolledDice = true;
             }
-
         }
     }
 
