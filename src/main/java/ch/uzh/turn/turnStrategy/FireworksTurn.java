@@ -1,8 +1,6 @@
 package ch.uzh.turn.turnStrategy;
 
-import java.util.Arrays;
-import java.util.List;
-
+import ch.uzh.ConsoleInput;
 import ch.uzh.command.Command;
 import ch.uzh.command.NullCommand;
 import ch.uzh.dice.DiceManager;
@@ -18,19 +16,9 @@ public class FireworksTurn implements TurnStrategy{
         boolean isTutto;
         do{
             DiceManager aDiceManager = new DiceManager(6, new NormalDiceScoreStrategy());
-            int tempScore = 0;
             
-            while(!aDiceManager.hadNullTurn() && !aDiceManager.isTutto()){
-                // Ask user to roll the Dice
-                Character[] acceptedInputs = {'R'};
-                getUserInput(acceptedInputs,"Please enter R to roll the dice. You're not allowed to stop your turn.");
-
-                // Roll and Display Dice
-                aDiceManager.rollDice();
-                aDiceManager.printScoredDices();
-                tempScore = aDiceManager.getScore();
-            }
-            score += tempScore;
+            aDiceManager = turnLoop(aDiceManager, ConsoleInput.instance());
+            score += aDiceManager.getScore();
             isTutto = aDiceManager.isTutto();
             
         } while(isTutto);
@@ -38,34 +26,22 @@ public class FireworksTurn implements TurnStrategy{
         return new NullCommand();
     }
 
+    private DiceManager turnLoop(DiceManager aDiceManager, ConsoleInput aConsoleInput){
+        while(!aDiceManager.hadNullTurn() && !aDiceManager.isTutto()){
+            // Ask user to roll the Dice
+            Character[] acceptedInputs = {'R'};
+            aConsoleInput.getCharacterInput(acceptedInputs,"Please enter R to roll the dice. You're not allowed to stop your turn.");
+
+            // Roll and Display Dice
+            aDiceManager.rollDice();
+            aDiceManager.printScoredDices();
+        }
+        return aDiceManager;
+    }
+
     @Override
     public int getScore() {
         return score;
-    }
-
-    public char getUserInput(Character[] acceptedInputs, String message){
-        List<Character> acceptedInputsList = Arrays.asList(acceptedInputs);
-        Boolean inputAccepted;
-        String input = "";
-        do {
-            try{
-                System.out.println(message);
-                input = System.console().readLine();
-                if (input.length() != 1){
-                    throw new IllegalArgumentException("Please only enter one character.");
-                }
-                if (!acceptedInputsList.contains(input.charAt(0))){
-                    throw new IllegalArgumentException("The character you entered wasn't one of the possible options.");
-                }
-                inputAccepted = true;
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                System.out.println("Let's try again...\n");
-                inputAccepted = false;
-            }
-        } while(!inputAccepted);
-
-        return (char) input.charAt(0);
     }
     
 }

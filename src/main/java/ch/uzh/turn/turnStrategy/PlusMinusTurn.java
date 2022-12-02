@@ -41,29 +41,4 @@ public class PlusMinusTurn implements TurnStrategy {
     public int getScore() {
         return this.score;
     }
-    
-    public char getUserInput(Character[] acceptedInputs, String message){
-        List<Character> acceptedInputsList = Arrays.asList(acceptedInputs);
-        Boolean inputAccepted;
-        String input = "";
-        do {
-            try{
-                System.out.println(message);
-                input = System.console().readLine();
-                if (input.length() != 1){
-                    throw new IllegalArgumentException("Please only enter one character.");
-                }
-                if (!acceptedInputsList.contains(input.charAt(0))){
-                    throw new IllegalArgumentException("The character you entered wasn't one of the possible options.");
-                }
-                inputAccepted = true;
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                System.out.println("Let's try again...\n");
-                inputAccepted = false;
-            }
-        } while(!inputAccepted);
-
-        return (char) input.charAt(0);
-    }
 }
