@@ -13,7 +13,7 @@ import ch.uzh.TestingGame;
 import ch.uzh.deck.Deck;
 import ch.uzh.deck.TestingDeck;
 import ch.uzh.lobby.Lobby;
-import ch.uzh.lobby.MockLobby;
+import ch.uzh.lobby.TestingLobby;
 import ch.uzh.lobby.Player;
 
 public class PlusMinusCommandTest {
@@ -25,7 +25,7 @@ public class PlusMinusCommandTest {
 
     public PlusMinusCommandTest() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         players = Arrays.asList(new Player[]{new Player("a"), new Player("b"), new Player("c")});
-        mockLobby = MockLobby.create(players);
+        mockLobby = TestingLobby.create(players);
         mockGame = TestingGame.create(TestingDeck.create(Deck.getDefaultCards()), mockLobby, 2000);
     }
 
