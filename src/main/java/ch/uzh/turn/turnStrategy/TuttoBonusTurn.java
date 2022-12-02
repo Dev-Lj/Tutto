@@ -14,6 +14,11 @@ public class TuttoBonusTurn extends StoppableTurn{
     @Override
     public Command playTurn(PlayerTurn currentTurn) {
         super.playStoppableTurn();
+        return evaluateTurn(currentTurn);
+        
+    }
+
+    private Command evaluateTurn(PlayerTurn currentTurn){
         if (super.hasLost()) {
             currentTurn.looseTurn();
         } else if (!super.isTutto()) {
@@ -21,6 +26,7 @@ public class TuttoBonusTurn extends StoppableTurn{
         }
         return new NullCommand();
     }
+
 
     @Override
     public int getScore() {

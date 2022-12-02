@@ -1,6 +1,7 @@
 package ch.uzh.turn.turnStrategy;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 
 import ch.uzh.ConsoleInput;
 import ch.uzh.command.Command;
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.concurrent.TimeUnit;
 
 
 
@@ -26,11 +28,11 @@ import java.lang.reflect.Method;
 public class StraightTurnTest 
 {
     
-    private Command invoke_evaluateTurn(PlayerTurn currentTurn, DiceManager aDiceManager) throws Throwable{
+    private Command invoke_evaluateTurn(StraightTurn aStraightTurn, PlayerTurn currentTurn, DiceManager aDiceManager) throws Throwable{
         Method method = StraightTurn.class.getDeclaredMethod("evaluateTurn", PlayerTurn.class, DiceManager.class);
         method.setAccessible(true);
         try {
-            return (Command) method.invoke(new StraightTurn(), new PlayerTurn(), aDiceManager);
+            return (Command) method.invoke(aStraightTurn, new PlayerTurn(), aDiceManager);
         } catch (InvocationTargetException e) {
             throw e.getCause();
         }
@@ -60,15 +62,14 @@ public class StraightTurnTest
      */
     @Test
     void testEvaluateTurn_Tutto() throws Throwable {
-        
+        StraightTurn aStraightTurn = new StraightTurn();
         MockDiceManager StubDiceManager = new MockDiceManager( new StraightDiceScoreStrategy());
         StubDiceManager.setIsTutto(true);
 
-        
+        Command aCommand = invoke_evaluateTurn(aStraightTurn, new PlayerTurn(), (DiceManager) StubDiceManager);
 
-        Command aCommand = invoke_evaluateTurn(new PlayerTurn(), (DiceManager) StubDiceManager);
-
-        assert(aCommand instanceof NullCommand);
+        assertEquals(2000, aStraightTurn.getScore());
+        assertTrue(aCommand instanceof NullCommand);
     }
 
     /**
@@ -76,14 +77,15 @@ public class StraightTurnTest
      */
     @Test
     void testEvaluateTurn_noTutto() throws Throwable {
-        
+        StraightTurn aStraightTurn = new StraightTurn();
         MockDiceManager StubDiceManager = new MockDiceManager( new StraightDiceScoreStrategy());
-        StubDiceManager.setIsTutto(true);
+        StubDiceManager.setIsTutto(false);
 
-        Command aCommand = invoke_evaluateTurn(new PlayerTurn(), StubDiceManager);
+        Command aCommand = invoke_evaluateTurn(aStraightTurn, new PlayerTurn(), StubDiceManager);
 
 
-        assert(aCommand instanceof NullCommand);
+        assertEquals(0, aStraightTurn.getScore());
+        assertTrue(aCommand instanceof NullCommand);
     }
 
     /**
@@ -101,4 +103,34 @@ public class StraightTurnTest
         assertEquals(aDiceManager, pDiceManager);
     }
 
+    /**
+     * @throws Throwable
+     */
+    @Test
+    void testturnLoop_isTutto() throws Throwable {
+        MockDiceManager StubDiceManager = new MockDiceManager( new StraightDiceScoreStrategy());
+        StubDiceManager.setIsTutto(true);
+
+        DiceManager pDiceManager = (DiceManager) invoke_turnLoop(StubDiceManager, ConsoleInput.instance());
+
+        assertEquals(StubDiceManager, pDiceManager);
+    }
+    /*
+     
+    @Test
+    @Timeout(value = 1, unit = TimeUnit.SECONDS)
+    void testturnLoop_endlessLoop() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, Throwable {
+        // fails with timeout
+        MockDiceManager StubDiceManager = new MockDiceManager( new StraightDiceScoreStrategy());
+        StubDiceManager.setIsTutto(false);
+        Field field = DiceManager.class.getDeclaredField("hadNullTurn");
+        field.setAccessible(true);
+        field.set(StubDiceManager, false);
+
+        invoke_turnLoop(StubDiceManager, ConsoleInput.instance());
+        return;
+    }
+    */
 }
+
+
