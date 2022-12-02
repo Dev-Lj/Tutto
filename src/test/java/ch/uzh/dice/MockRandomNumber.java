@@ -3,14 +3,14 @@ package ch.uzh.dice;
 import java.util.Random;
 
 public class MockRandomNumber extends Random {
-    int reulsultNumber;
+    int resultNumber;
 
     @Override
     protected int next(int bits) {
-        return 0;
+        return this.resultNumber;
     }
 
     public void setReulsultNumber(int number) {
-        this.reulsultNumber = number - 1;
+        this.resultNumber = number - 1;
     }
 }
