@@ -4,39 +4,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Scanner;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 
 public class ConsoleInputTest {
-
     private ConsoleInput testInput = ConsoleInput.instance();
 
-    private int readNumberInput(String input, int min, int max) throws Throwable {
-        Method method = testInput.getClass().getDeclaredMethod("readNumberInput", Scanner.class, Integer.TYPE, Integer.TYPE, String.class);
-        method.setAccessible(true);
-        try {
-            return (int) method.invoke(testInput, new Scanner(input), min, max, "");
-        } catch (InvocationTargetException e) {
-            throw e.getCause();
-        }
-    }
-
-    private String readStringInput(String input, int minLength, int maxLength) throws Throwable {
-        Method method = testInput.getClass().getDeclaredMethod("readStringInput", Scanner.class, Integer.TYPE, Integer.TYPE, String.class);
-        method.setAccessible(true);
-        try {
-            return (String) method.invoke(testInput, new Scanner(input), minLength, maxLength, "");
-        } catch (InvocationTargetException e) {
-            throw e.getCause();
-        }
-    }
+    
 
     @Test
     void testReadNumberInput() {
         try {
-            int result = readNumberInput("3", 0, 5);
+            int result = TestingConsoleInput.readNumberInput(testInput, "3", 0, 5);
             assertEquals(3, result);
         } catch (Throwable e) {
             fail();
@@ -46,7 +29,7 @@ public class ConsoleInputTest {
     @Test
     void testReadNumberInput_String() {
         try {
-            readNumberInput("test", 0, 5);
+            TestingConsoleInput.readNumberInput(testInput, "test", 0, 5);
             fail();
         } catch (Throwable e) {
             assertEquals(IllegalArgumentException.class, e.getClass());
@@ -56,7 +39,7 @@ public class ConsoleInputTest {
     @Test
     void testReadNumberInput_belowMin() {
         try {
-            readNumberInput("-1", 0, 10);
+            TestingConsoleInput.readNumberInput(testInput,"-1", 0, 10);
         } catch (Throwable e) {
             assertEquals(IllegalArgumentException.class, e.getClass());
             return;
@@ -69,7 +52,7 @@ public class ConsoleInputTest {
     void testReadNumberInput_aboveMax() throws NoSuchMethodException, SecurityException, IllegalAccessException, InvocationTargetException {
 
         try {
-            readNumberInput("11", 0, 10);
+            TestingConsoleInput.readNumberInput(testInput,"11", 0, 10);
         } catch (Throwable e) {
             assertEquals(IllegalArgumentException.class, e.getClass());
             return;
@@ -81,7 +64,7 @@ public class ConsoleInputTest {
     @Test
     void testReadStringInput() {
         try {
-            String result = readStringInput("Test", 0, 100);
+            String result = TestingConsoleInput.readStringInput(testInput,"Test", 0, 100);
             assertEquals("Test", result);
         } catch (Throwable e) {
             fail();
@@ -91,7 +74,7 @@ public class ConsoleInputTest {
     @Test
     void testReadStringInput_belowMin() {
         try {
-            readStringInput("T", 2, 100);
+            TestingConsoleInput.readStringInput(testInput, "T", 2, 100);
             fail();
         } catch (Throwable e) {
             assertEquals(IllegalArgumentException.class, e.getClass());
@@ -101,10 +84,68 @@ public class ConsoleInputTest {
     @Test
     void testReadStringInput_aboveMax() {
         try {
-            readStringInput("Testing", 2, 5);
+            TestingConsoleInput.readStringInput(testInput, "Testing", 2, 5);
             fail();
         } catch (Throwable e) {
             assertEquals(IllegalArgumentException.class, e.getClass());
+        }
+    }
+
+    @Test
+    void testReadCharacterInput() {
+        List<Character> accepted = Arrays.asList('A', 'B');
+        try {
+            char input = TestingConsoleInput.readCharacterInput(testInput, "B", accepted);
+            assertEquals('B', input);
+        } catch (Throwable e) {
+            fail();
+        }
+    }
+
+    @Test
+    void testReadCharacterInput_NotAccepted() {
+        List<Character> accepted = Arrays.asList('A', 'B');
+        try {
+            TestingConsoleInput.readCharacterInput(testInput, "C", accepted);
+            fail();
+        } catch (Throwable e) {
+            assertEquals(IllegalArgumentException.class, e.getClass());
+        }
+    }
+
+    @Test
+    @Timeout (value = 1, unit = TimeUnit.SECONDS)
+    void testGetCharacterInput() {
+        try {
+            ConsoleInput test = TestingConsoleInput.createInstance(new String[]{"A"});
+            char input = test.getCharacterInput(new Character[]{'A', 'B'}, "test");
+            assertEquals('A', input);
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    @Timeout (value = 1, unit = TimeUnit.SECONDS)
+    void testGetNumberInput() {
+        try {
+            ConsoleInput test = TestingConsoleInput.createInstance(new String[]{"1"});
+            int input = test.getNumberInput(0, 2, "test");
+            assertEquals(1, input);
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    @Timeout (value = 1, unit = TimeUnit.SECONDS)
+    void testGetStringInput() {
+        try {
+            ConsoleInput test = TestingConsoleInput.createInstance(new String[]{"ABC"});
+            String input = test.getStringInput(0, 5, "test");
+            assertEquals("ABC", input);
+        } catch (Exception e) {
+            fail();
         }
     }
 

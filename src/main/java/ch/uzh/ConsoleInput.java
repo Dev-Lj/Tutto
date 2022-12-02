@@ -10,13 +10,14 @@ public class ConsoleInput {
     private Scanner scanner;
     private boolean closed = false;
 
-    private ConsoleInput(){
-        scanner = new Scanner(System.in);
+    private ConsoleInput(Scanner scanner){
+        this.scanner = scanner;
     }
 
     public static ConsoleInput instance() {
         if (instance == null) {
-            instance = new ConsoleInput();
+
+            instance = new ConsoleInput(new Scanner(System.in));
         }
         return instance;
     }
@@ -70,6 +71,23 @@ public class ConsoleInput {
     }
 
     /**
+     * Read a character from scanner
+     * @param scanner
+     * @param acceptedInputsList
+     * @param message
+     * @pre acceptedInputsList.size() > 0 && message != null && scanner != null;
+     * @return
+     */
+    private char readCharacterInput(Scanner scanner, List<Character> acceptedInputsList, String message) {
+        assert acceptedInputsList.size() > 0 && message != null && scanner != null;
+        char input = readStringInput(scanner, 1, 1, message).charAt(0);
+        if(!acceptedInputsList.contains(input)) {
+            throw new IllegalArgumentException("Entered character not in accepted inputs.");
+        }
+        return input;
+    }
+
+    /**
      * prompt a question to select char from acceptedInputs
      * @param acceptedInputs
      * @param message
@@ -89,10 +107,7 @@ public class ConsoleInput {
         char input = acceptedInputs[0];
         while(!inputAccepted) {
             try{
-                input = readStringInput(scanner, 1, 1, message).charAt(0);
-                if(!acceptedInputsList.contains(input)) {
-                    throw new IllegalArgumentException("Entered character not in accepted inputs.");
-                }
+                readCharacterInput(scanner, acceptedInputsList, message);
                 inputAccepted = true;
             } catch (Exception e) {
                 System.out.println(e.getMessage());
