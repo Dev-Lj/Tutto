@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Timeout;
 
 import ch.uzh.deck.Card;
 import ch.uzh.deck.Deck;
-import ch.uzh.deck.MockDeck;
+import ch.uzh.deck.TestingDeck;
 import ch.uzh.lobby.Lobby;
 import ch.uzh.lobby.MockLobby;
 import ch.uzh.lobby.Player;
@@ -35,7 +35,7 @@ public class GameTest {
         requiredScoreToWin = 1000;
         players = Arrays.asList(new Player[]{new Player("a"), new Player("b"), new Player("c"), new Player("d")});
         testLobby = MockLobby.create(players);
-        testDeck = MockDeck.create(Deck.getDefaultCards());
+        testDeck = TestingDeck.create(Deck.getDefaultCards());
         testGame = TestingGame.create(testDeck, testLobby, requiredScoreToWin);
     }
 
