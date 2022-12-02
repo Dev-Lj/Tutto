@@ -15,7 +15,6 @@ public class TuttoBonusTurn extends StoppableTurn{
     public Command playTurn(PlayerTurn currentTurn) {
         super.playStoppableTurn();
         return evaluateTurn(currentTurn);
-        
     }
 
     private Command evaluateTurn(PlayerTurn currentTurn){
