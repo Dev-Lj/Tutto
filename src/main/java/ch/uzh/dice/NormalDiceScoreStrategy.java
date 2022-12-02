@@ -1,4 +1,5 @@
 package ch.uzh.dice;
+
 import java.util.Map;
 
 /**

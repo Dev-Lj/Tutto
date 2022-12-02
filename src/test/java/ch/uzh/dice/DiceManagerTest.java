@@ -11,18 +11,18 @@ import org.junit.jupiter.api.Test;
 
 
 public class DiceManagerTest {
-    /*FakeDiceScoreStrategy FDSS = new FakeDiceScoreStrategy();*/
+    /*MockDiceScoreStrategy FDSS = new MockDiceScoreStrategy();*/
     NormalDiceScoreStrategy FDSS=new NormalDiceScoreStrategy();
     private final PrintStream standardOut = System.out;
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
-
+    MockRandomNumber1 FRN1 = new MockRandomNumber1();
+    MockRandomNumber2 FRN2 = new MockRandomNumber2();
 
    
     @Test
     public void initalScore() {
-        DiceManager DM = new DiceManager(6, FDSS);
-        FakeRandomNumber1 FRN = new FakeRandomNumber1();
-        DM.setFakeRandom(FRN);
+        MockRandomNumber1 FRN = new MockRandomNumber1();
+        DiceManager DM = new DiceManager(6, FDSS,FRN1);
         assertEquals(0, DM.getScore());
         assertEquals(false, DM.hadNullTurn());
         assertEquals(false, DM.isTutto());
@@ -31,9 +31,7 @@ public class DiceManagerTest {
     
     @Test
     public void rollDice1() {
-        DiceManager DM = new DiceManager(6, FDSS);
-        FakeRandomNumber1 FRN = new FakeRandomNumber1();
-        DM.setFakeRandom(FRN);
+        DiceManager DM = new DiceManager(6, FDSS,FRN1);
         DM.rollDice();
         assertEquals(400, DM.getScore());
         assertEquals(true, DM.isTutto());
@@ -42,9 +40,7 @@ public class DiceManagerTest {
 
     @Test
     public void rollDice2() {
-        DiceManager DM = new DiceManager(2, FDSS);
-        FakeRandomNumber2 FRN = new FakeRandomNumber2();
-        DM.setFakeRandom(FRN);
+        DiceManager DM = new DiceManager(2, FDSS,FRN2);
         DM.rollDice();
         assertEquals(0, DM.getScore());
         assertEquals(false, DM.isTutto());
@@ -60,9 +56,7 @@ public class DiceManagerTest {
     
     @Test 
     public void printScoredDices1() {
-        DiceManager DM = new DiceManager(2, FDSS);
-        FakeRandomNumber2 FRN = new FakeRandomNumber2();
-        DM.setFakeRandom(FRN);
+        DiceManager DM = new DiceManager(2, FDSS,FRN1);
         DM.rollDice();
         DM.printScoredDices();
         assertEquals("Dices scored so far", outputStreamCaptor.toString()
@@ -71,9 +65,7 @@ public class DiceManagerTest {
     
     @Test 
     public void printScoredDices2() {
-    DiceManager DM = new DiceManager(5, FDSS);
-    FakeRandomNumber2 FRN = new FakeRandomNumber2();
-    DM.setFakeRandom(FRN);
+    DiceManager DM = new DiceManager(5, FDSS,FRN2);
     DM.rollDice();
     DM.printScoredDices();
     assertEquals("Dices scored so far"+ "\n" + "Number: 2 -> 3 times", outputStreamCaptor.toString()

@@ -2,7 +2,7 @@ package ch.uzh.dice;
 
 import java.util.Map;
 
-public class FakeDiceScoreStrategy implements DiceScoreStrategy {
+public class MockDiceScoreStrategy implements DiceScoreStrategy {
 
 
     public int calculateDiceScore(Map<Integer, Integer> dice) {
