@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 public class StraightDiceScoreStrategyTest {
     StraightDiceScoreStrategy SDSS = new StraightDiceScoreStrategy();
 
-
+    
     @Test
     public void calculateDiceScore() {
         Map<Integer, Integer> dicees = new HashMap<Integer, Integer>();
