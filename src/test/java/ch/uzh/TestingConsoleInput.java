@@ -11,7 +11,7 @@ public class TestingConsoleInput {
     public static ConsoleInput createInstance(String[] inputs) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         Constructor<ConsoleInput> constructor = ConsoleInput.class.getDeclaredConstructor(Scanner.class);
         constructor.setAccessible(true);
-        String inputString = String.join("\n\n", inputs);
+        String inputString = String.join("\n", inputs);
         ConsoleInput input = constructor.newInstance(new Scanner(inputString));
         return input;
     }
