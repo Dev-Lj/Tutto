@@ -9,8 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class DiceManagerTest {
-    /* MockDiceScoreStrategy FDSS = new MockDiceScoreStrategy(); */
-    NormalDiceScoreStrategy FDSS = new NormalDiceScoreStrategy();
+    MockDiceScoreStrategy FDSS = new MockDiceScoreStrategy();
+    /* NormalDiceScoreStrategy FDSS = new NormalDiceScoreStrategy(); */
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
     MockRandomNumber FRN = new MockRandomNumber();
 
@@ -29,7 +29,7 @@ public class DiceManagerTest {
         FRN.setReulsultNumber(1);
         DiceManager DM = new DiceManager(6, FDSS, FRN);
         DM.rollDice();
-        assertEquals(2000, DM.getScore());
+        assertEquals(1, DM.getScore());
         assertEquals(true, DM.isTutto());
         assertEquals(false, DM.hadNullTurn());
     }
@@ -39,9 +39,23 @@ public class DiceManagerTest {
         FRN.setReulsultNumber(2);
         DiceManager DM = new DiceManager(2, FDSS, FRN);
         DM.rollDice();
-        assertEquals(0, DM.getScore());
+        assertEquals(1, DM.getScore());
         assertEquals(false, DM.isTutto());
         assertEquals(true, DM.hadNullTurn());
+    }
+
+    @Test
+    public void rollDice3() {
+        FRN.setReulsultNumber(2);
+        DiceManager DM = new DiceManager(4, FDSS, FRN);
+        DM.rollDice();
+        assertEquals(1, DM.getScore());
+        assertEquals(false, DM.isTutto());
+        assertEquals(false, DM.hadNullTurn());
+        DM.rollDice();
+        assertEquals(2, DM.getScore());
+        assertEquals(true, DM.hadNullTurn());
+        assertEquals(false, DM.isTutto());
     }
 
     @BeforeEach
