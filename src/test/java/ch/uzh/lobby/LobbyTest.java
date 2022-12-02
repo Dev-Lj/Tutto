@@ -7,8 +7,8 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -73,5 +73,16 @@ public class LobbyTest {
         assertEquals(sortedPlayers.next(), p1);
         assertEquals(sortedPlayers.next(), p2);
         assertEquals(sortedPlayers.next(), p3);
+    }
+
+    @Test
+    void getPlayerRankingString() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+        List<Player> players = Arrays.asList(new Player[]{new Player("A"), new Player("B"), new Player("C")});
+        players.get(0).addScore(1);
+        players.get(1).addScore(2);
+        players.get(2).addScore(3);
+        Lobby lobby = TestingLobby.create(players);
+        String expected = "1. C: 3 Points\n2. B: 2 Points\n3. A: 1 Points";
+        assertEquals(expected, lobby.getPlayerRankingString());
     }
 }

@@ -1,7 +1,5 @@
 package ch.uzh;
 
-import java.util.Iterator;
-
 import ch.uzh.command.Command;
 import ch.uzh.deck.Card;
 import ch.uzh.deck.Deck;
@@ -35,18 +33,18 @@ public class Game {
     }
 
     private void printPlayerRanking() {
-        Iterator<Player> rankedPlayers = this.lobby.getPlayersSortedByRank();
-        int rank = 1;
-        while (rankedPlayers.hasNext()) {
-            Player currentRankPlayer = rankedPlayers.next();
-            System.out.println(String.format("%d. %s: %d Points", rank++, currentRankPlayer.getName(), currentRankPlayer.getScore()));
-        }
+        System.out.println(this.lobby.getPlayerRankingString());
     }
 
-    private void awaitRollDice() {
+    /**
+     * @pre consoleInput!=null
+     * @param consoleInput
+     */
+    private void awaitRollDice(ConsoleInput consoleInput) {
+        assert consoleInput!=null;
         boolean rolledDice = false;
         while (!rolledDice) {
-            char input = ConsoleInput.instance().getCharacterInput(new Character[]{'R', 'D'}, "Roll the dice or display current scores? (R/D)");
+            char input = consoleInput.getCharacterInput(new Character[]{'R', 'D'}, "Roll the dice or display current scores? (R/D)");
             if (input == 'D') {
                 printPlayerRanking();
             } else {
@@ -55,17 +53,41 @@ public class Game {
         }
     }
 
-    private void playTurn(Player currentPlayer, PlayerTurn currentTurn) {
-        while (currentTurn.isActive()) {
-            Card card = deck.drawCard();
-            Command postTurnCommand = currentTurn.playTurn(card);
-            postTurnCommand.execute(this, currentPlayer);
-            if (currentTurn.isActive()) {
-                char playerInput = ConsoleInput.instance().getCharacterInput(new Character[] {'D', 'E'}, "Draw new Card (D) or end turn (E): ");
-                if (playerInput == 'E') {
-                    currentTurn.endTurn();
-                }
+    /**
+     * 
+     * @param card
+     * @param currentTurn
+     * @param currentPlayer
+     * @param input
+     * @pre card != null && currentTurn!=null && currentPlayer != null && input != null
+     */
+    private void playCardTurn(Card card, PlayerTurn currentTurn, Player currentPlayer, ConsoleInput input) {
+        assert card != null && currentTurn!=null && currentPlayer != null && input != null;
+        Command postTurnCommand = currentTurn.playTurn(card);
+        postTurnCommand.execute(this, currentPlayer);
+        if (currentTurn.isActive()) {
+            char playerInput = input.getCharacterInput(new Character[] {'D', 'E'}, "Draw new Card (D) or end turn (E): ");
+            if (playerInput == 'E') {
+                currentTurn.endTurn();
             }
+        }
+    }
+
+    private void playPlayerTurn(PlayerTurn currentTurn, Player currentPlayer, Deck myDeck, ConsoleInput input) {
+        System.out.println(String.format("Hey, %s it is your turn.", currentPlayer.getName()));
+        awaitRollDice(ConsoleInput.instance());
+        while (currentTurn.isActive()) {
+            Card card = myDeck.drawCard();
+            playCardTurn(card, currentTurn, currentPlayer, input);
+        }
+        currentPlayer.addScore(currentTurn.getScore());
+    }
+
+    private void checkForWinner(Player currentPlayer, int requiredScoreToWin) {
+        if (currentPlayer.getScore() >= requiredScoreToWin) {
+            // As Appendix A states, that if there is a winner the game is immediately finished
+            // this is executed here instead of ensuring all players have played the same amount of turns
+            this.end(currentPlayer);
         }
     }
 
@@ -75,15 +97,9 @@ public class Game {
     public void play() {
         while (!finished) {
             Player currentPlayer = lobby.getNextPlayer();
-            System.out.println(String.format("Hey, %s it is your turn.", currentPlayer.getName()));
-            awaitRollDice();
             PlayerTurn currentTurn = new PlayerTurn();
-            playTurn(currentPlayer, currentTurn);
-            currentPlayer.addScore(currentTurn.getScore());
-            if (currentPlayer.getScore() >= requiredScoreToWin) {
-                // TODO finish round
-                this.end(currentPlayer);
-            }
+            playPlayerTurn(currentTurn, currentPlayer, deck, ConsoleInput.instance());
+            checkForWinner(currentPlayer, requiredScoreToWin);
         }
         printPlayerRanking();
     }

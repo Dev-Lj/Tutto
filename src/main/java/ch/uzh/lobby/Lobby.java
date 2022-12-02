@@ -66,6 +66,17 @@ public class Lobby {
         return playersSortedByRank.iterator();
     }
 
+    public String getPlayerRankingString() {
+        Iterator<Player> rankedPlayers = getPlayersSortedByRank();
+        int rank = 1;
+        List<String> output = new ArrayList<String>();
+        while (rankedPlayers.hasNext()) {
+            Player currentRankPlayer = rankedPlayers.next();
+            output.add(currentRankPlayer.toRankingString(rank++));
+        }
+        return String.join("\n", output);
+    }
+
     public void setWinner(Player winner) {
         this.winner = Optional.of(winner);
     }

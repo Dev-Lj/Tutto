@@ -107,7 +107,7 @@ public class ConsoleInput {
         char input = acceptedInputs[0];
         while(!inputAccepted) {
             try{
-                readCharacterInput(scanner, acceptedInputsList, message);
+                input = readCharacterInput(scanner, acceptedInputsList, message);
                 inputAccepted = true;
             } catch (Exception e) {
                 System.out.println(e.getMessage());
