@@ -9,7 +9,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import ch.uzh.Game;
-import ch.uzh.MockGame;
+import ch.uzh.TestingGame;
 import ch.uzh.deck.Deck;
 import ch.uzh.deck.MockDeck;
 import ch.uzh.lobby.Lobby;
@@ -26,7 +26,7 @@ public class PlusMinusCommandTest {
     public PlusMinusCommandTest() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         players = Arrays.asList(new Player[]{new Player("a"), new Player("b"), new Player("c")});
         mockLobby = MockLobby.create(players);
-        mockGame = MockGame.create(MockDeck.create(Deck.getDefaultCards()), mockLobby, 2000);
+        mockGame = TestingGame.create(MockDeck.create(Deck.getDefaultCards()), mockLobby, 2000);
     }
 
 
