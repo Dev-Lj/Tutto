@@ -33,7 +33,7 @@ public class Lobby {
         return new Lobby(players);
     }
 
-    protected static int readNumberOfPlayers() {
+    private static int readNumberOfPlayers() {
         return ConsoleInput.instance().getNumberInput(MIN_PLAYERS, MAX_PLAYERS, String.format("Number of players [%d-%d]: ", MIN_PLAYERS, MAX_PLAYERS));
     }
 
@@ -47,7 +47,7 @@ public class Lobby {
         return players;
     }
 
-    protected static String readPlayerName(int currentPlayer, int totalPlayers) {
+    private static String readPlayerName(int currentPlayer, int totalPlayers) {
         return ConsoleInput.instance().getStringInput(1, 20, String.format("Enter name of player %d/%d: ", currentPlayer, totalPlayers));
     }
 
