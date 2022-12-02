@@ -35,12 +35,7 @@ public class Game {
     }
 
     private void printPlayerRanking() {
-        Iterator<Player> rankedPlayers = this.lobby.getPlayersSortedByRank();
-        int rank = 1;
-        while (rankedPlayers.hasNext()) {
-            Player currentRankPlayer = rankedPlayers.next();
-            System.out.println(String.format("%d. %s: %d Points", rank++, currentRankPlayer.getName(), currentRankPlayer.getScore()));
-        }
+        System.out.println(this.lobby.getPlayerRankingString());
     }
 
     /**

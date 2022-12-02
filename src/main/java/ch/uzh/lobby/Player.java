@@ -10,6 +10,10 @@ public class Player implements Comparable<Player> {
         this.name = name;
     }
 
+    public String toRankingString(int rank) {
+        return String.format("%d. %s: %d Points", rank++, name, score);
+    }
+
     public String getName() {
         return name;
     }
