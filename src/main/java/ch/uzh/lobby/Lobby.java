@@ -27,20 +27,28 @@ public class Lobby {
         if(App.DEBUG_MODE) {
             players = Arrays.asList(new Player("Nataell"), new Player("David"), new Player("Jan"));
         } else {
-            int nrOfPlayers = ConsoleInput.instance().getNumberInput(MIN_PLAYERS, MAX_PLAYERS, String.format("Number of players [%d-%d]: ", MIN_PLAYERS, MAX_PLAYERS));
+            int nrOfPlayers = readNumberOfPlayers();
             players = createPlayers(nrOfPlayers);
         }
         return new Lobby(players);
     }
 
+    protected static int readNumberOfPlayers() {
+        return ConsoleInput.instance().getNumberInput(MIN_PLAYERS, MAX_PLAYERS, String.format("Number of players [%d-%d]: ", MIN_PLAYERS, MAX_PLAYERS));
+    }
+
     private static List<Player> createPlayers(int nrOfPlayers) {
         List<Player> players = new ArrayList<>();
         for(int i = 1; i <= nrOfPlayers; i++) {
-            String name = ConsoleInput.instance().getStringInput(1, 20, String.format("Enter name of player %d/%d: ", i, nrOfPlayers));
+            String name = readPlayerName(i, nrOfPlayers);
             Player player = new Player(name);
             players.add(player);
         }
         return players;
+    }
+
+    protected static String readPlayerName(int currentPlayer, int totalPlayers) {
+        return ConsoleInput.instance().getStringInput(1, 20, String.format("Enter name of player %d/%d: ", currentPlayer, totalPlayers));
     }
 
     public Player getNextPlayer() {
