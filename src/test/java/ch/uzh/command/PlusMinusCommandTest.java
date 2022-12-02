@@ -33,17 +33,35 @@ public class PlusMinusCommandTest {
 
     @Test
     void testExecute() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+        players.get(0).addScore(0);
         players.get(1).addScore(1000);
+        players.get(2).addScore(0);
         testCommand.execute(mockGame, players.get(0));
         assertEquals(1000, players.get(0).getScore());
         assertEquals(0, players.get(1).getScore());
+        assertEquals(0, players.get(2).getScore());
     }
 
     @Test
     void testExecute_CurrentPlayerIsWinner() {
         players.get(0).addScore(1000);
+        players.get(1).addScore(500);
+        players.get(2).addScore(500);
         testCommand.execute(mockGame, players.get(0));
         assertEquals(2000, players.get(0).getScore());
+        assertEquals(500, players.get(1).getScore());
+        assertEquals(500, players.get(2).getScore());
+    }
+
+    @Test
+    void testExecute_MultipleWinners() {
+        players.get(0).addScore(1000);
+        players.get(1).addScore(1000);
+        players.get(2).addScore(1000);
+        testCommand.execute(mockGame, players.get(0));
+        assertEquals(2000, players.get(0).getScore());
+        assertEquals(0, players.get(1).getScore());
+        assertEquals(0, players.get(2).getScore());
     }
 
 
