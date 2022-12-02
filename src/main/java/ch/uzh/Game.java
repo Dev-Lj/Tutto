@@ -1,7 +1,5 @@
 package ch.uzh;
 
-import java.util.Iterator;
-
 import ch.uzh.command.Command;
 import ch.uzh.deck.Card;
 import ch.uzh.deck.Deck;
