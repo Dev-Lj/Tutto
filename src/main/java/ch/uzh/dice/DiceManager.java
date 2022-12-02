@@ -1,4 +1,5 @@
 package ch.uzh.dice;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -10,13 +11,21 @@ public class DiceManager {
     private int score = 0;
     private int initialDice;
     private int remainingDice;
-    private Random rand = new Random();
+    private Random rand;
     private Map<Integer, Integer> scoredDices = new HashMap<Integer, Integer>();
    
     public DiceManager(int availableDice, DiceScoreStrategy scoreStrategy) {
         this.initialDice = availableDice;
         this.remainingDice = availableDice;
         this.scoreStrategy = scoreStrategy;
+        this.rand = new Random();
+    }
+
+    public DiceManager(int availableDice, DiceScoreStrategy scoreStrategy, Random random) {
+        this.initialDice = availableDice;
+        this.remainingDice = availableDice;
+        this.scoreStrategy = scoreStrategy;
+        this.rand = random;
     }
 
     public void rollDice() {
@@ -38,9 +47,6 @@ public class DiceManager {
         this.remainingDice = scoreStrategy.calculateRemainingDice(this.scoredDices, this.initialDice);
     }
 
-    public void setFakeRandom(Random rand) {
-        this.rand = rand;
-    }
 
     public void printScoredDices() {
         System.out.print("Dices scored so far");

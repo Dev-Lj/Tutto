@@ -96,7 +96,7 @@ public class ConsoleInput {
      * @return char input from user
      */
     public char getCharacterInput(Character[] acceptedInputs, String message) throws IllegalAccessError{
-        assert acceptedInputs.length > 1 && message != null;
+        assert acceptedInputs.length > 0 && message != null;
 
         if (closed) {
             throw new IllegalStateException("ConsoleInput was closed");
