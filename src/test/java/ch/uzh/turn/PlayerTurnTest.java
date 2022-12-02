@@ -6,35 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import ch.uzh.command.Command;
-import ch.uzh.command.NullCommand;
 import ch.uzh.deck.Card;
+import ch.uzh.turn.turnStrategy.MockStrategy;
 
 public class PlayerTurnTest {
     PlayerTurn testTurn = new PlayerTurn();
-
-    /**
-     * InnerPlayerTurnTest
-     */
-    public class MockStrategy implements TurnStrategy {
-        private boolean wasPlayed = false;
-
-        @Override
-        public Command playTurn(PlayerTurn currentTurn) {
-            this.wasPlayed = true;
-            return new NullCommand();
-        }
-
-        @Override
-        public int getScore() {
-            // TODO Auto-generated method stub
-            return 0;
-        }
-
-        public boolean wasPlayed () {
-            return this.wasPlayed;
-        }
-    }
 
     @Test
     void testEndTurn() {
