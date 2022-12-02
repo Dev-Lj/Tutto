@@ -24,7 +24,7 @@ public class LobbyTest {
     private final Player p1 = new Player("P1");
     private final Player p2 = new Player("P2");
     private final Player p3 = new Player("P3");
-    Lobby lobby = MockLobby.create(Arrays.asList(p1, p2, p3));
+    Lobby lobby = TestingLobby.create(Arrays.asList(p1, p2, p3));
 
     @Test
     void testCreateNewLobby() throws Throwable {
@@ -76,13 +76,11 @@ public class LobbyTest {
     }
 
     @Test
-    void getPlayerRankingString() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-        List<Player> players = Arrays.asList(new Player[]{new Player("A"), new Player("B"), new Player("C")});
-        players.get(0).addScore(1);
-        players.get(1).addScore(2);
-        players.get(2).addScore(3);
-        Lobby lobby = TestingLobby.create(players);
-        String expected = "1. C: 3 Points\n2. B: 2 Points\n3. A: 1 Points";
+    void getPlayerRankingString() throws IllegalArgumentException, SecurityException {
+        p1.addScore(300);
+        p2.addScore(200);
+        p3.addScore(100);
+        String expected = "1. P1: 300 Points\n2. P2: 200 Points\n3. P3: 100 Points";
         assertEquals(expected, lobby.getPlayerRankingString());
     }
 }
