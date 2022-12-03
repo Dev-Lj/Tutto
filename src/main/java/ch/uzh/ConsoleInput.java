@@ -38,6 +38,8 @@ public class ConsoleInput {
             throw new IllegalArgumentException(String.format("Input length below defined minimum (%d)", minLength));
         } else if(input.length() > maxLength) {
             throw new IllegalArgumentException(String.format("Input length above defined maximum (%d)", maxLength));
+        } else if(input.isBlank()) {
+            throw new IllegalArgumentException("Input must not be blank");
         }
         return input;
     }
@@ -110,7 +112,6 @@ public class ConsoleInput {
                 inputAccepted = true;
             } catch (Exception e) {
                 System.out.println(e.getMessage());
-                scanner.nextLine();
                 inputAccepted = false;
             }
         }
@@ -140,7 +141,6 @@ public class ConsoleInput {
                 hasError = false;
             } catch (Exception e) {
                 System.out.println("Invalid Input: " + e.getMessage());
-                scanner.nextLine();
                 hasError = true;
             }
         }
@@ -160,7 +160,6 @@ public class ConsoleInput {
                 hasError = false;
             } catch (Exception e) {
                 System.out.println("Invalid Input: " + e.getMessage());
-                scanner.nextLine();
                 hasError = true;
             }
         }
