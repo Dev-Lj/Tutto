@@ -35,10 +35,10 @@ public class StraightTurnTest
         return (Command) method.invoke(aStraightTurn, currentTurn, aDiceManager);
     }
 
-    private DiceManager invoke_turnLoop(DiceManager aDiceManager, ConsoleInput aConsoleInput) throws Throwable{
+    private DiceManager invoke_turnLoop(StraightTurn aStraightTurn, DiceManager aDiceManager, ConsoleInput aConsoleInput) throws Throwable{
         Method method = StraightTurn.class.getDeclaredMethod("turnLoop", DiceManager.class, ConsoleInput.class);
         method.setAccessible(true);
-        return (DiceManager) method.invoke(new StraightTurn(), aDiceManager, aConsoleInput);
+        return (DiceManager) method.invoke(aDiceManager, aConsoleInput);
     }
 
 
@@ -98,8 +98,8 @@ public class StraightTurnTest
         
         try {
             ConsoleInput aTestingConsoleInput = TestingConsoleInput.createFakeScannerInstance(aStrings);
-            DiceManager aDiceManager = invoke_turnLoop(new DiceManager(6, new StraightDiceScoreStrategy()), aTestingConsoleInput);
-            assertTrue(aDiceManager.getScore(), aStoppableTurn.getScore());
+            DiceManager aDiceManager = invoke_turnLoop(aStraightTurn, new DiceManager(6, new StraightDiceScoreStrategy()), aTestingConsoleInput);
+            assertEquals(aDiceManager.getScore(), aStraightTurn.getScore());
         } catch (Throwable e) {
             fail("Test failed because Exception was raised.");
         }    
