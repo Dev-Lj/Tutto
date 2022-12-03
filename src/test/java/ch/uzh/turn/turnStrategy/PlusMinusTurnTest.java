@@ -12,7 +12,6 @@ import ch.uzh.dice.DiceManager;
 import ch.uzh.dice.MockDiceManager;
 import ch.uzh.dice.NormalDiceScoreStrategy;
 import ch.uzh.dice.StraightDiceScoreStrategy;
-import ch.uzh.turn.PlayerTurn;
 
 
 
@@ -20,7 +19,6 @@ import ch.uzh.turn.PlayerTurn;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.concurrent.TimeoutException;
 
 /**
  * Unit test for simple App.
@@ -30,11 +28,8 @@ public class PlusMinusTurnTest
     private Command invoke_evaluateTurn(PlusMinusTurn aPlusMinusTurn, DiceManager aDiceManager) throws Throwable{
         Method method = PlusMinusTurn.class.getDeclaredMethod("evaluateTurn", DiceManager.class);
         method.setAccessible(true);
-        try {
-            return (Command) method.invoke(aPlusMinusTurn, aDiceManager);
-        } catch (InvocationTargetException e) {
-            throw e.getCause();
-        }
+        return (Command) method.invoke(aPlusMinusTurn, aDiceManager);
+
     }
 
     private DiceManager invoke_turnLoop(PlusMinusTurn aPlusMinusTurn, DiceManager aDiceManager, ConsoleInput aConsoleInput) throws Throwable{

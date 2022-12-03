@@ -10,14 +10,10 @@ import org.junit.jupiter.api.Test;
 
 import ch.uzh.ConsoleInput;
 import ch.uzh.TestingConsoleInput;
-import ch.uzh.command.Command;
-import ch.uzh.command.NullCommand;
 import ch.uzh.dice.DiceManager;
 import ch.uzh.dice.MockDiceManager;
 import ch.uzh.dice.NormalDiceScoreStrategy;
 import ch.uzh.dice.StraightDiceScoreStrategy;
-import ch.uzh.turn.PlayerTurn;
-
 
 /**
  * Unit test for simple App.
@@ -101,7 +97,7 @@ public class StoppableTurnTest
 
         assertEquals(StubDiceManager, pDiceManager);
     }
-    
+    /*
     @Test
     void turnLoop_playTurn() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, Throwable {
         String[] aStrings = {"R", "R", "R", "R", "R", "R"};
@@ -110,10 +106,10 @@ public class StoppableTurnTest
         DiceManager aDiceManager = invoke_turnLoop(new TuttoDoubleTurn(), new DiceManager(6, new NormalDiceScoreStrategy()), aTestingConsoleInput);
         assertTrue(aDiceManager.hadNullTurn() || aDiceManager.isTutto());
     }
-
+    */
     @Test
     void turnLoop_playerStopsTurn() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, Throwable {
-        String[] aStrings = {"E", "R", "R", "R", "R", "R"};
+        String[] aStrings = {"E"};
         ConsoleInput aTestingConsoleInput = TestingConsoleInput.createInstance(aStrings);
         
         DiceManager aDiceManager = invoke_turnLoop(new TuttoDoubleTurn(), new DiceManager(6, new NormalDiceScoreStrategy()), aTestingConsoleInput);

@@ -118,7 +118,7 @@ public class StraightTurnTest
     }
      
     @Test
-    void turnLoop_playTurn() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, Throwable, TimeoutException {
+    void turnLoop_playTurn() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, Throwable {
         String[] aStrings = {"R", "R", "R", "R", "R", "R"};
         ConsoleInput aTestingConsoleInput = TestingConsoleInput.createInstance(aStrings);
         
