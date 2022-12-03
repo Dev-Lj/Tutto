@@ -78,7 +78,7 @@ public class CloverleafTurnTest
     }
 
     @Test
-    void testComputeTurn_NoNullTurn() {
+    void testComputeTurn_activeTurn() {
         try {
             invoke_computeTurn(aCloverleafTurn, currentTurn, new DiceManager(6, null));
             assertEquals(true, currentTurn.isActive());
@@ -99,9 +99,8 @@ public class CloverleafTurnTest
         }
     }
 
-    
     @Test
-    void testturnLoop_isTutto() {
+    void testturnLoop_Tutto() {
         aMockDiceManager.setIsTutto(true);
 
         try {
@@ -111,19 +110,20 @@ public class CloverleafTurnTest
             fail(e.getCause());
         }
     }
-    /*
-    void testturnLoop_playTurn()  {
-        String[] aStrings = {"R", "R", "R", "R", "R", "R", "R", "R", "R", "R", "R", "R"};
+    
+    @Test
+    void testturnLoop_playStrategy()  {
+        String[] aStrings = {"R", "R", "R", "R", "R", "R"};
+
         try {
             ConsoleInput aTestingConsoleInput = TestingConsoleInput.createFakeScannerInstance(aStrings);
-            DiceManager aDiceManager = invoke_turnLoop(aCloverleafTurn, aMockDiceManager, aTestingConsoleInput);
+            DiceManager aDiceManager = invoke_turnLoop(aCloverleafTurn, new DiceManager(6, new NormalDiceScoreStrategy()), aTestingConsoleInput);
             assertTrue(aDiceManager.hadNullTurn() || aDiceManager.isTutto());
         } catch (Throwable e) {
             fail(e.getCause());
         }
         
     }
-    */
 
     @Test
     void testplayTurn_notActive() {

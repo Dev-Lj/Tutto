@@ -40,7 +40,6 @@ public class CloverleafTurn implements TurnStrategy{
     }
 
     private DiceManager turnLoop(DiceManager aDiceManager, ConsoleInput aConsoleInput){
-
         while(!aDiceManager.hadNullTurn() && !aDiceManager.isTutto()){
             // Ask user to roll the Dice
             Character[] acceptedInputs = {'R'};

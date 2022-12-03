@@ -87,11 +87,9 @@ public class StraightTurnTest
         }    
     }
     
-    // TODO: still endless loop
-    /*
     @Test
     void turnLoop_playTurn() {
-        String[] aStrings = {"R", "E"};
+        String[] aStrings = {"R", "R", "R", "R", "R", "R"};
         
         try {
             ConsoleInput aTestingConsoleInput = TestingConsoleInput.createFakeScannerInstance(aStrings);
@@ -101,7 +99,8 @@ public class StraightTurnTest
             fail(e.getCause());
         }    
     }
-    */
+    
+    
     
     
 }

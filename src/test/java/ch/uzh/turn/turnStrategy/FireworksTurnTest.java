@@ -54,7 +54,6 @@ public class FireworksTurnTest
         }
     }
 
-
     @Test
     void turnLoop_playTurn() {
         String[] aStrings = {"R", "R", "R", "R", "R", "R"};
