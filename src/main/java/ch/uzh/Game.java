@@ -41,7 +41,7 @@ public class Game {
      * @param consoleInput
      */
     private void awaitRollDice(ConsoleInput consoleInput) {
-        assert consoleInput!=null;
+        assert consoleInput != null;
         boolean rolledDice = false;
         while (!rolledDice) {
             char input = consoleInput.getCharacterInput(new Character[]{'R', 'D'}, "Roll the dice or display current scores? (R/D)");
