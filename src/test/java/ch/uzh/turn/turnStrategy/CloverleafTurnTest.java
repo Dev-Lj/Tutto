@@ -101,7 +101,7 @@ public class CloverleafTurnTest
         assertEquals(true, currentTurn.isActive());
     }
 
-            /**
+    /**
      * @throws Throwable
      */
     @Test
@@ -119,6 +119,7 @@ public class CloverleafTurnTest
     /**
      * @throws Throwable
      */
+    /* 
     @Test
     void testturnLoop_isTutto() throws Throwable {
         MockDiceManager StubDiceManager = new MockDiceManager( new NormalDiceScoreStrategy());
@@ -142,7 +143,7 @@ public class CloverleafTurnTest
 
         assertTrue(aCommand instanceof NullCommand);
     }
-
+    /* 
     @Test
     void turnLoop_playTurn() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, Throwable {
         String[] aStrings = {"R", "R", "R", "R", "R", "R"};
@@ -151,5 +152,5 @@ public class CloverleafTurnTest
         DiceManager aDiceManager = invoke_turnLoop(new CloverleafTurn(), new DiceManager(6, new NormalDiceScoreStrategy()), aTestingConsoleInput);
         assertTrue(aDiceManager.hadNullTurn() || aDiceManager.isTutto());
     }
-    
+    */
 }
