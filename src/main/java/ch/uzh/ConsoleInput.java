@@ -110,7 +110,6 @@ public class ConsoleInput {
                 inputAccepted = true;
             } catch (Exception e) {
                 System.out.println(e.getMessage());
-                scanner.nextLine();
                 inputAccepted = false;
             }
         }
@@ -140,7 +139,6 @@ public class ConsoleInput {
                 hasError = false;
             } catch (Exception e) {
                 System.out.println("Invalid Input: " + e.getMessage());
-                scanner.nextLine();
                 hasError = true;
             }
         }
@@ -160,7 +158,6 @@ public class ConsoleInput {
                 hasError = false;
             } catch (Exception e) {
                 System.out.println("Invalid Input: " + e.getMessage());
-                scanner.nextLine();
                 hasError = true;
             }
         }
