@@ -75,7 +75,7 @@ public class CloverleafTurnTest
 
         assertTrue(aCommand instanceof NullCommand);
     }
-
+    /*
     @Test
     void testComputeTurn_NullTurn() throws Throwable {
         CloverleafTurn aCloverleafTurn = new CloverleafTurn();
@@ -101,9 +101,7 @@ public class CloverleafTurnTest
         assertEquals(true, currentTurn.isActive());
     }
 
-    /**
-     * @throws Throwable
-     */
+
     @Test
     void testturnLoop_hadNullTurn() throws Throwable {
         DiceManager aDiceManager = new DiceManager(6, new NormalDiceScoreStrategy());
@@ -116,9 +114,6 @@ public class CloverleafTurnTest
         assertEquals(aDiceManager, pDiceManager);
     }
 
-    /**
-     * @throws Throwable
-     */
     /* 
     @Test
     void testturnLoop_isTutto() throws Throwable {

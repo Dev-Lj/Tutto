@@ -3,9 +3,7 @@ package ch.uzh.turn.turnStrategy;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.concurrent.TimeoutException;
 
 import org.junit.jupiter.api.Test;
 
@@ -51,11 +49,7 @@ public class FireworksTurnTest
             fail();
         }
     }
-
-    /**
-     * @throws Throwable
-     */
-    
+    /*
     @Test
     void testturnLoop_isTutto() throws Throwable {
         try {
@@ -82,5 +76,6 @@ public class FireworksTurnTest
         }
         
     }
+    */
 }
 
