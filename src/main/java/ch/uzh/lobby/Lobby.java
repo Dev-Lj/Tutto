@@ -1,11 +1,6 @@
 package ch.uzh.lobby;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import ch.uzh.App;
 import ch.uzh.ConsoleInput;
@@ -23,32 +18,32 @@ public class Lobby {
     }
 
     public static Lobby createNewLobby() {
-        List<Player> players;
-        if(App.DEBUG_MODE) {
-            players = Arrays.asList(new Player("Nataell"), new Player("David"), new Player("Jan"));
-        } else {
-            int nrOfPlayers = readNumberOfPlayers();
-            players = createPlayers(nrOfPlayers);
-        }
+        return createNewLobby(ConsoleInput.instance());
+    }
+
+    private static Lobby createNewLobby(ConsoleInput input) {
+        int nrOfPlayers = readNumberOfPlayers(input);
+        List<Player> players = createPlayers(input, nrOfPlayers);
         return new Lobby(players);
     }
 
-    private static int readNumberOfPlayers() {
-        return ConsoleInput.instance().getNumberInput(MIN_PLAYERS, MAX_PLAYERS, String.format("Number of players [%d-%d]: ", MIN_PLAYERS, MAX_PLAYERS));
+
+    private static int readNumberOfPlayers(ConsoleInput input) {
+        return input.getNumberInput(MIN_PLAYERS, MAX_PLAYERS, String.format("Number of players [%d-%d]: ", MIN_PLAYERS, MAX_PLAYERS));
     }
 
-    private static List<Player> createPlayers(int nrOfPlayers) {
+    private static List<Player> createPlayers(ConsoleInput input, int nrOfPlayers) {
         List<Player> players = new ArrayList<>();
         for(int i = 1; i <= nrOfPlayers; i++) {
-            String name = readPlayerName(i, nrOfPlayers);
+            String name = readPlayerName(input, i, nrOfPlayers);
             Player player = new Player(name);
             players.add(player);
         }
         return players;
     }
 
-    private static String readPlayerName(int currentPlayer, int totalPlayers) {
-        return ConsoleInput.instance().getStringInput(1, 20, String.format("Enter name of player %d/%d: ", currentPlayer, totalPlayers));
+    private static String readPlayerName(ConsoleInput input, int currentPlayer, int totalPlayers) {
+        return input.getStringInput(1, 20, String.format("Enter name of player %d/%d: ", currentPlayer, totalPlayers));
     }
 
     public Player getNextPlayer() {

@@ -16,7 +16,6 @@ public class ConsoleInput {
 
     public static ConsoleInput instance() {
         if (instance == null) {
-
             instance = new ConsoleInput(new Scanner(System.in));
         }
         return instance;

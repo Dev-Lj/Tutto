@@ -1,11 +1,12 @@
 package ch.uzh.lobby;
 
+import ch.uzh.ConsoleInput;
+import ch.uzh.TestingConsoleInput;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Iterator;
@@ -16,11 +17,6 @@ public class LobbyTest {
     public LobbyTest() throws InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
     }
 
-    void setUserInput(String input) {
-        InputStream in = new ByteArrayInputStream(input.getBytes());
-        System.setIn(in);
-    }
-
     private final Player p1 = new Player("P1");
     private final Player p2 = new Player("P2");
     private final Player p3 = new Player("P3");
@@ -28,8 +24,10 @@ public class LobbyTest {
 
     @Test
     void testCreateNewLobby() throws Throwable {
-        setUserInput("3\nNataell\nJan\nDavid\n");   // TODO what should I do here ...
-        Lobby lobby = Lobby.createNewLobby();
+        ConsoleInput input = TestingConsoleInput.createInstance(new String[]{"3", "P1", "P2", "P3"});
+        Method createLobbyMethod = Lobby.class.getDeclaredMethod("createNewLobby", ConsoleInput.class);
+        createLobbyMethod.setAccessible(true);
+        Lobby lobby = (Lobby) createLobbyMethod.invoke(null, input);
         Field playersField = Lobby.class.getDeclaredField("players");
         playersField.setAccessible(true);
         List<Player> players = (List<Player>) playersField.get(lobby);
