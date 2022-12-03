@@ -12,7 +12,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 
 public class ConsoleInputTest {
-    private ConsoleInput testInput = ConsoleInput.instance();
+    private ConsoleInput testInput;
+
+    ConsoleInputTest () throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+        // We use this method to avoid tampering with system.in, as this led to unpredictable errors with surefire
+        testInput = TestingConsoleInput.createNullSourceScannerInstance();
+    }
 
     
 
@@ -127,7 +132,7 @@ public class ConsoleInputTest {
     @Timeout (value = 1, unit = TimeUnit.SECONDS)
     void testGetCharacterInput() {
         try {
-            ConsoleInput test = TestingConsoleInput.createInstance(new String[]{"A"});
+            ConsoleInput test = TestingConsoleInput.createFakeScannerInstance(new String[]{"A"});
             char input = test.getCharacterInput(new Character[]{'A', 'B'}, "test");
             assertEquals('A', input);
         } catch (Exception e) {
@@ -139,7 +144,7 @@ public class ConsoleInputTest {
     @Timeout (value = 1, unit = TimeUnit.SECONDS)
     void testGetNumberInput() {
         try {
-            ConsoleInput test = TestingConsoleInput.createInstance(new String[]{"1"});
+            ConsoleInput test = TestingConsoleInput.createFakeScannerInstance(new String[]{"1"});
             int input = test.getNumberInput(0, 2, "test");
             assertEquals(1, input);
         } catch (Exception e) {
@@ -151,7 +156,7 @@ public class ConsoleInputTest {
     @Timeout (value = 1, unit = TimeUnit.SECONDS)
     void testGetStringInput() {
         try {
-            ConsoleInput test = TestingConsoleInput.createInstance(new String[]{"ABC"});
+            ConsoleInput test = TestingConsoleInput.createFakeScannerInstance(new String[]{"ABC"});
             String input = test.getStringInput(0, 5, "test");
             assertEquals("ABC", input);
         } catch (Exception e) {

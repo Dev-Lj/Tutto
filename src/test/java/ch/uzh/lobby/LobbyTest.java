@@ -24,7 +24,7 @@ public class LobbyTest {
 
     @Test
     void testCreateNewLobby() throws Throwable {
-        ConsoleInput input = TestingConsoleInput.createInstance(new String[]{"3", "P1", "P2", "P3"});
+        ConsoleInput input = TestingConsoleInput.createFakeScannerInstance(new String[]{"3", "P1", "P2", "P3"});
         Method createLobbyMethod = Lobby.class.getDeclaredMethod("createNewLobby", ConsoleInput.class);
         createLobbyMethod.setAccessible(true);
         Lobby lobby = (Lobby) createLobbyMethod.invoke(null, input);
@@ -37,7 +37,7 @@ public class LobbyTest {
     @Test
     void testGetUniquePlayerName() throws InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
         String newName = "P4";
-        ConsoleInput input = TestingConsoleInput.createInstance(new String[]{p1.getName(), p2.getName(), newName});
+        ConsoleInput input = TestingConsoleInput.createFakeScannerInstance(new String[]{p1.getName(), p2.getName(), newName});
         Method testUniquePlayerNameMethod = Lobby.class.getDeclaredMethod("getUniquePlayerName", List.class, ConsoleInput.class, int.class, int.class);
         testUniquePlayerNameMethod.setAccessible(true);
         List<Player> players = Arrays.asList(p1, p2, p3);

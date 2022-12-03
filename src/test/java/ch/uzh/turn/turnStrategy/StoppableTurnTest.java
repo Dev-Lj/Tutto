@@ -101,7 +101,7 @@ public class StoppableTurnTest
     @Test
     void turnLoop_playTurn() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, Throwable {
         String[] aStrings = {"R", "R", "R", "R", "R", "R"};
-        ConsoleInput aTestingConsoleInput = TestingConsoleInput.createInstance(aStrings);
+        ConsoleInput aTestingConsoleInput = TestingConsoleInput.createFakeScannerInstance(aStrings);
         
         DiceManager aDiceManager = invoke_turnLoop(new TuttoDoubleTurn(), new DiceManager(6, new NormalDiceScoreStrategy()), aTestingConsoleInput);
         assertTrue(aDiceManager.hadNullTurn() || aDiceManager.isTutto());
@@ -109,8 +109,8 @@ public class StoppableTurnTest
     
     @Test
     void turnLoop_playerStopsTurn() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, Throwable {
-        String[] aStrings = {"E"};
-        ConsoleInput aTestingConsoleInput = TestingConsoleInput.createInstance(aStrings);
+        String[] aStrings = {"E", "R", "R", "R", "R", "R"};
+        ConsoleInput aTestingConsoleInput = TestingConsoleInput.createFakeScannerInstance(aStrings);
         
         DiceManager aDiceManager = invoke_turnLoop(new TuttoDoubleTurn(), new DiceManager(6, new NormalDiceScoreStrategy()), aTestingConsoleInput);
         assertTrue(!aDiceManager.hadNullTurn() && !aDiceManager.isTutto());
