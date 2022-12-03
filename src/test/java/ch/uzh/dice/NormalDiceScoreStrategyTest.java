@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test;
 public class NormalDiceScoreStrategyTest {
     NormalDiceScoreStrategy NDSS = new NormalDiceScoreStrategy();
     Map<Integer, Integer> dicees = new HashMap<Integer, Integer>();
+    Map<Integer, Integer> scoredDicees = new HashMap<Integer, Integer>();
+    Map<Integer, Integer> resultDicees = new HashMap<Integer, Integer>();
 
-    // TODO please split up your tests, so that each function only tests one
-    // expected behaviour
     @Test
     public void Dice6ScoreTrump1() {
         dicees.clear();
@@ -78,89 +78,111 @@ public class NormalDiceScoreStrategyTest {
     }
 
     @Test
-    public void calculateScoredDices() {
-        Map<Integer, Integer> dicees = new HashMap<Integer, Integer>();
+    public void Scored5Dices2Trump3NonTrump() {
+        dicees.clear();
+        scoredDicees.clear();
+        resultDicees.clear();
         dicees.put(1, 1);
         dicees.put(2, 1);
         dicees.put(3, 2);
-        Map<Integer, Integer> scoredDicees = new HashMap<Integer, Integer>();
         scoredDicees.put(1, 1);
         scoredDicees.put(2, 3);
-        Map<Integer, Integer> resultDicees = new HashMap<Integer, Integer>();
         resultDicees.put(1, 2);
         resultDicees.put(2, 3);
         assertEquals(resultDicees, NDSS.calculateScoredDices(dicees, scoredDicees));
-        dicees.clear();
-        dicees.put(1, 1);
-        dicees.put(2, 1);
-        dicees.put(3, 2);
-        scoredDicees.clear();
-        scoredDicees.put(1, 1);
-        scoredDicees.put(2, 3);
-        resultDicees.clear();
-        resultDicees.put(1, 2);
-        resultDicees.put(2, 3);
-        assertEquals(resultDicees, NDSS.calculateScoredDices(dicees, scoredDicees));
-        dicees.clear();
-        dicees.put(4, 3);
-        scoredDicees.clear();
-        scoredDicees.put(1, 1);
-        resultDicees.clear();
-        resultDicees.put(4, 3);
-        resultDicees.put(1, 1);
-        assertEquals(resultDicees, NDSS.calculateScoredDices(dicees, scoredDicees));
-        dicees.clear();
-        dicees.put(4, 3);
-        scoredDicees.clear();
-        scoredDicees.put(4, 3);
-        resultDicees.clear();
-        resultDicees.put(4, 6);
-        assertEquals(resultDicees, NDSS.calculateScoredDices(dicees, scoredDicees));
-        dicees.clear();
-        dicees.put(6, 6);
-        scoredDicees.clear();
-        resultDicees.clear();
-        resultDicees.put(6, 6);
-        assertEquals(resultDicees, NDSS.calculateScoredDices(dicees, scoredDicees));
-        dicees.clear();
-        scoredDicees.clear();
-        resultDicees.clear();
-        assertEquals(resultDicees, NDSS.calculateScoredDices(dicees, scoredDicees));
-        dicees.clear();
-        dicees.put(5, 2);
-        dicees.put(6, 2);
-        dicees.put(1, 2);
-        scoredDicees.clear();
-        resultDicees.clear();
-        resultDicees.put(5, 2);
-        resultDicees.put(1, 2);
-        assertEquals(resultDicees, NDSS.calculateScoredDices(dicees, scoredDicees));
-
     }
 
     @Test
-    public void calculateRemainingDice() {
-        Map<Integer, Integer> dicees = new HashMap<Integer, Integer>();
+    public void ScoreDices2Trump3NonTrump() {
+        dicees.clear();
+        scoredDicees.clear();
+        resultDicees.clear();
+        dicees.put(1, 1);
+        dicees.put(2, 1);
+        dicees.put(3, 2);
+        scoredDicees.put(1, 1);
+        scoredDicees.put(2, 3);
+        resultDicees.put(1, 2);
+        resultDicees.put(2, 3);
+        assertEquals(resultDicees, NDSS.calculateScoredDices(dicees, scoredDicees));
+    }
+
+    @Test
+    public void ScoredDices3Trump1NonTrump() {
+        dicees.clear();
+        scoredDicees.clear();
+        resultDicees.clear();
+        dicees.put(4, 3);
+        scoredDicees.put(1, 1);
+        resultDicees.put(4, 3);
+        resultDicees.put(1, 1);
+        assertEquals(resultDicees, NDSS.calculateScoredDices(dicees, scoredDicees));
+    }
+
+    @Test
+    public void ScoredDices6NonTrump() {
+        dicees.clear();
+        scoredDicees.clear();
+        resultDicees.clear();
+        dicees.put(4, 3);
+        scoredDicees.put(4, 3);
+        resultDicees.put(4, 6);
+        assertEquals(resultDicees, NDSS.calculateScoredDices(dicees, scoredDicees));
+    }
+
+    @Test
+    public void ScoredDices4Trump() {
+        dicees.clear();
+        scoredDicees.clear();
+        resultDicees.clear();
+        dicees.put(5, 2);
+        dicees.put(6, 2);
+        dicees.put(1, 2);
+        resultDicees.put(5, 2);
+        resultDicees.put(1, 2);
+        assertEquals(resultDicees, NDSS.calculateScoredDices(dicees, scoredDicees));
+    }
+
+    @Test
+    public void RemainingDice6TrumpSame() {
+        dicees.clear();
         dicees.put(1, 6);
         assertEquals(0, NDSS.calculateRemainingDice(dicees, 6));
+    }
+
+    @Test
+    public void RemainingDice6NonTrumpSame() {
         dicees.clear();
         dicees.put(3, 6);
         assertEquals(0, NDSS.calculateRemainingDice(dicees, 6));
+    }
+
+    @Test
+    public void RemainingDice1Trump() {
         dicees.clear();
         dicees.put(5, 1);
         assertEquals(5, NDSS.calculateRemainingDice(dicees, 6));
+    }
+
+    @Test
+    public void RemainingDice6NonTrumpMultiple() {
         dicees.clear();
         dicees.put(2, 2);
         dicees.put(3, 2);
         dicees.put(4, 1);
         dicees.put(6, 1);
         assertEquals(0, NDSS.calculateRemainingDice(dicees, 6));
+    }
+
+    @Test
+    public void RemainingDice4NonTrump() {
         dicees.clear();
         dicees.put(4, 3);
-        assertEquals(0, NDSS.calculateRemainingDice(dicees, 3));
-        dicees.clear();
-        dicees.put(1, 1);
-        assertEquals(4, NDSS.calculateRemainingDice(dicees, 5));
+        assertEquals(3, NDSS.calculateRemainingDice(dicees, 6));
+    }
+
+    @Test
+    public void RemainingDice3TrumpSame3NonTrumpSame() {
         dicees.clear();
         dicees.put(5, 3);
         dicees.put(4, 3);
