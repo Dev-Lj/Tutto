@@ -90,7 +90,6 @@ public class PlusMinusTurnTest
 
         try {
             ConsoleInput aTestingConsoleInput = TestingConsoleInput.createFakeScannerInstance(aStrings);
-        
             DiceManager aDiceManager = invoke_turnLoop(aPlusMinusTurn, new DiceManager(6, new NormalDiceScoreStrategy()), aTestingConsoleInput);
             assertTrue(aDiceManager.hadNullTurn() || aDiceManager.isTutto());
         } catch (Throwable e) {
