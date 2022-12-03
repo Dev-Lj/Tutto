@@ -9,6 +9,7 @@ import java.lang.reflect.Method;
 import org.junit.jupiter.api.Test;
 
 import ch.uzh.ConsoleInput;
+import ch.uzh.TestingConsoleInput;
 import ch.uzh.command.Command;
 import ch.uzh.command.NullCommand;
 import ch.uzh.dice.DiceManager;
@@ -101,4 +102,12 @@ public class StoppableTurnTest
         assertEquals(StubDiceManager, pDiceManager);
     }
     
+    @Test
+    void turnLoop_playTurn() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, Throwable {
+        String[] aStrings = {"R", "R", "R", "R", "R", "R"};
+        ConsoleInput aTestingConsoleInput = TestingConsoleInput.createInstance(aStrings);
+        
+        DiceManager aDiceManager = invoke_turnLoop(new TuttoDoubleTurn(), new DiceManager(6, new NormalDiceScoreStrategy()), aTestingConsoleInput);
+        assertTrue(aDiceManager.hadNullTurn() || aDiceManager.isTutto());
+    }
 }

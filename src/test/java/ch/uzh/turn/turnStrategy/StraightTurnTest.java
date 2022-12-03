@@ -1,11 +1,10 @@
 package ch.uzh.turn.turnStrategy;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Timeout;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ch.uzh.ConsoleInput;
+import ch.uzh.TestingConsoleInput;
 import ch.uzh.command.Command;
 import ch.uzh.command.NullCommand;
 import ch.uzh.dice.DiceManager;
@@ -20,8 +19,6 @@ import ch.uzh.turn.PlayerTurn;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 
@@ -121,22 +118,12 @@ public class StraightTurnTest
     }
      
     @Test
-    void testTurnLoop_endlessLoop() throws Throwable{
-        Exception exception = assertThrows(TimeoutException.class, () -> {
-            turnLoop_endlessLoop();
-        });
-        assertTrue(exception instanceof TimeoutException);
-    }
-    
-    @Timeout(3)
-    void turnLoop_endlessLoop() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, Throwable, TimeoutException {
-        // fails with timeout
-        MockDiceManager StubDiceManager = new MockDiceManager( new StraightDiceScoreStrategy());
-        StubDiceManager.setIsTutto(false);
-        StubDiceManager.setHadNullTurn(false);
+    void turnLoop_playTurn() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, Throwable, TimeoutException {
+        String[] aStrings = {"R", "R", "R", "R", "R", "R"};
+        ConsoleInput aTestingConsoleInput = TestingConsoleInput.createInstance(aStrings);
         
-        invoke_turnLoop(StubDiceManager, ConsoleInput.instance());
-        return;
+        DiceManager aDiceManager = invoke_turnLoop(new DiceManager(6, new NormalDiceScoreStrategy()), aTestingConsoleInput);
+        assertTrue(aDiceManager.hadNullTurn() || aDiceManager.isTutto());
     }
 
     

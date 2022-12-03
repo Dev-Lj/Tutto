@@ -9,6 +9,7 @@ import java.lang.reflect.Field;
 import org.junit.jupiter.api.Test;
 
 import ch.uzh.ConsoleInput;
+import ch.uzh.TestingConsoleInput;
 import ch.uzh.command.Command;
 import ch.uzh.command.EndGameCommand;
 import ch.uzh.command.NullCommand;
@@ -150,6 +151,15 @@ public class CloverleafTurnTest
         Command aCommand = aCloverleafTurn.playTurn(currentTurn);
 
         assertTrue(aCommand instanceof NullCommand);
+    }
+
+    @Test
+    void turnLoop_playTurn() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, Throwable {
+        String[] aStrings = {"R", "R", "R", "R", "R", "R"};
+        ConsoleInput aTestingConsoleInput = TestingConsoleInput.createInstance(aStrings);
+        
+        DiceManager aDiceManager = invoke_turnLoop(new CloverleafTurn(), new DiceManager(6, new NormalDiceScoreStrategy()), aTestingConsoleInput);
+        assertTrue(aDiceManager.hadNullTurn() || aDiceManager.isTutto());
     }
     
 }
