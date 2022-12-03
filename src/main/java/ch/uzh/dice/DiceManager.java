@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-
 public class DiceManager {
     private final DiceScoreStrategy scoreStrategy;
     private boolean hadNullTurn = false;
@@ -13,7 +12,7 @@ public class DiceManager {
     private int remainingDice;
     private Random rand;
     private Map<Integer, Integer> scoredDices = new HashMap<Integer, Integer>();
-   
+
     public DiceManager(int availableDice, DiceScoreStrategy scoreStrategy) {
         this.initialDice = availableDice;
         this.remainingDice = availableDice;
@@ -38,7 +37,6 @@ public class DiceManager {
                 dice.put(number, 1);
             }
         }
-        /* changed here from throw score to remaining dice since for straight the score does not increase */
         this.score += scoreStrategy.calculateDiceScore(dice);
         this.scoredDices = scoreStrategy.calculateScoredDices(dice, this.scoredDices);
         if (scoreStrategy.calculateRemainingDice(this.scoredDices, this.initialDice) == this.remainingDice) {
@@ -47,18 +45,11 @@ public class DiceManager {
         this.remainingDice = scoreStrategy.calculateRemainingDice(this.scoredDices, this.initialDice);
     }
 
-
     public void printScoredDices() {
         System.out.print("Dices scored so far");
         System.out.println();
-        for (int key : this.scoredDices.keySet()){
-            System.out.print("Number: ");
-            System.out.print(key);
-            System.out.print(" -> ");
-            System.out.print(scoredDices.get(key));
-            System.out.print(" times");
-            System.out.println();
-            // TODO replace with String.format("Number: %d -> %d times", key, scoredDices.get(key));
+        for (int key : this.scoredDices.keySet()) {
+            System.out.println(String.format("Number: %d -> %d times", key, scoredDices.get(key)));
         }
     }
 
@@ -74,5 +65,4 @@ public class DiceManager {
         return hadNullTurn;
     }
 
-    
 }
