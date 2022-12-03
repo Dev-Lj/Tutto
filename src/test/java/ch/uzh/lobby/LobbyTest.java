@@ -35,6 +35,17 @@ public class LobbyTest {
     }
 
     @Test
+    void testGetUniquePlayerName() throws InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
+        String newName = "P4";
+        ConsoleInput input = TestingConsoleInput.createInstance(new String[]{p1.getName(), p2.getName(), newName});
+        Method testUniquePlayerNameMethod = Lobby.class.getDeclaredMethod("getUniquePlayerName", List.class, ConsoleInput.class, int.class, int.class);
+        testUniquePlayerNameMethod.setAccessible(true);
+        List<Player> players = Arrays.asList(p1, p2, p3);
+        String name = (String) testUniquePlayerNameMethod.invoke(null, players, input, 3, 4);
+        assertEquals(newName, name);
+    }
+
+    @Test
     void testGetNextPlayer() {
         lobby.getNextPlayer();
         Player player = lobby.getNextPlayer();

@@ -2,7 +2,6 @@ package ch.uzh.lobby;
 
 import java.util.*;
 
-import ch.uzh.App;
 import ch.uzh.ConsoleInput;
 
 public class Lobby {
@@ -35,15 +34,30 @@ public class Lobby {
     private static List<Player> createPlayers(ConsoleInput input, int nrOfPlayers) {
         List<Player> players = new ArrayList<>();
         for(int i = 1; i <= nrOfPlayers; i++) {
-            String name = readPlayerName(input, i, nrOfPlayers);
+            String name = getUniquePlayerName(players, input, i, nrOfPlayers);
             Player player = new Player(name);
             players.add(player);
         }
         return players;
     }
 
-    private static String readPlayerName(ConsoleInput input, int currentPlayer, int totalPlayers) {
-        return input.getStringInput(1, 20, String.format("Enter name of player %d/%d: ", currentPlayer, totalPlayers));
+    private static String getUniquePlayerName(List<Player> players, ConsoleInput input, int currentPlayerNr, int nrOfPlayers) {
+        List<String> playerNames = new ArrayList<>();
+        for(Player player : players) {
+            playerNames.add(player.getName());
+        }
+        String name = null;
+        do {
+            if (name != null) {
+                System.out.println("Name " + name + " is already taken.");
+            }
+            name = readPlayerName(input, currentPlayerNr, nrOfPlayers);
+        } while(playerNames.contains(name));
+        return name;
+    }
+
+    private static String readPlayerName(ConsoleInput input, int currentPlayerNr, int nrOfPlayers) {
+        return input.getStringInput(1, 20, String.format("Enter name of player %d/%d: ", currentPlayerNr, nrOfPlayers));
     }
 
     public Player getNextPlayer() {
@@ -64,7 +78,7 @@ public class Lobby {
     public String getPlayerRankingString() {
         Iterator<Player> rankedPlayers = getPlayersSortedByRank();
         int rank = 1;
-        List<String> output = new ArrayList<String>();
+        List<String> output = new ArrayList<>();
         while (rankedPlayers.hasNext()) {
             Player currentRankPlayer = rankedPlayers.next();
             output.add(currentRankPlayer.toRankingString(rank++));
