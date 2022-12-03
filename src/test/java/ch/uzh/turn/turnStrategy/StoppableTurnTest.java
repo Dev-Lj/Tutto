@@ -110,4 +110,13 @@ public class StoppableTurnTest
         DiceManager aDiceManager = invoke_turnLoop(new TuttoDoubleTurn(), new DiceManager(6, new NormalDiceScoreStrategy()), aTestingConsoleInput);
         assertTrue(aDiceManager.hadNullTurn() || aDiceManager.isTutto());
     }
+
+    @Test
+    void turnLoop_playerStopsTurn() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, Throwable {
+        String[] aStrings = {"E", "R", "R", "R", "R", "R"};
+        ConsoleInput aTestingConsoleInput = TestingConsoleInput.createInstance(aStrings);
+        
+        DiceManager aDiceManager = invoke_turnLoop(new TuttoDoubleTurn(), new DiceManager(6, new NormalDiceScoreStrategy()), aTestingConsoleInput);
+        assertTrue(!aDiceManager.hadNullTurn() && !aDiceManager.isTutto());
+    }
 }

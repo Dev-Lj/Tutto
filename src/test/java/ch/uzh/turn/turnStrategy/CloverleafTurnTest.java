@@ -128,17 +128,7 @@ public class CloverleafTurnTest
 
         assertEquals(StubDiceManager, pDiceManager);
     }
-    /* TODO: Implement TimeOut
-    @Test
-    void testplayTurn_active() throws Throwable {
-        CloverleafTurn aCloverleafTurn = new CloverleafTurn();
-        PlayerTurn currentTurn = new PlayerTurn();
 
-        Command aCommand = aCloverleafTurn.playTurn(currentTurn);
-
-        assertTrue(aCommand instanceof EndGameCommand);
-    }
-    */
     @Test
     void testplayTurn_notActive() throws Throwable {
         CloverleafTurn aCloverleafTurn = new CloverleafTurn();
