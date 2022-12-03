@@ -9,7 +9,7 @@ public class MockDiceScoreStrategy implements DiceScoreStrategy {
         return  1;
     }
     
-
+    // TODO isn't this the same as in Mocked class? Mocks shoudl not add complexity, keep it simple
     public Map<Integer, Integer> calculateScoredDices(Map<Integer, Integer> dice, Map<Integer, Integer> scoredDices) {
         for (int number : dice.keySet()) {
             if (number == 1 || number == 5) {

@@ -24,6 +24,8 @@ public class DiceManagerTest {
 
     }
 
+    // TODO please give the tests a descriptive name -> if a test fails and only the name is of the test is printed, it should be clear what went wrong
+
     @Test
     public void rollDice1() {
         FRN.setReulsultNumber(1);
