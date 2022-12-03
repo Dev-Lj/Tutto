@@ -43,7 +43,7 @@ public class PlusMinusTurnTest
             assertEquals(1000, aPlusMinusTurn.getScore());
             assertTrue(aCommand instanceof PlusMinusCommand);
         } catch (Throwable e) {
-            fail("Test failed because Exception was raised.");
+            fail(e.getCause());
         }
     }
 
@@ -56,7 +56,7 @@ public class PlusMinusTurnTest
             assertEquals(0, aPlusMinusTurn.getScore());
             assertTrue(aCommand instanceof NullCommand);
         } catch (Throwable e) {
-            fail("Test failed because Exception was raised.");
+            fail(e.getCause());
         }       
     }
 
@@ -68,7 +68,7 @@ public class PlusMinusTurnTest
             DiceManager pDiceManager = (DiceManager) invoke_turnLoop(aPlusMinusTurn, aMockDiceManager, ConsoleInput.instance());
             assertEquals(aMockDiceManager, pDiceManager);
         } catch (Throwable e) {
-            fail("Test failed because Exception was raised.");
+            fail(e.getCause());
         }
     }
 
@@ -80,7 +80,7 @@ public class PlusMinusTurnTest
             DiceManager pDiceManager = (DiceManager) invoke_turnLoop(aPlusMinusTurn, aMockDiceManager, ConsoleInput.instance());
             assertEquals(aMockDiceManager, pDiceManager);
         } catch (Throwable e) {
-            fail("Test failed because Exception was raised.");
+            fail(e.getCause());
         } 
     }
      
@@ -93,7 +93,7 @@ public class PlusMinusTurnTest
             DiceManager aDiceManager = invoke_turnLoop(aPlusMinusTurn, new DiceManager(6, new NormalDiceScoreStrategy()), aTestingConsoleInput);
             assertTrue(aDiceManager.hadNullTurn() || aDiceManager.isTutto());
         } catch (Throwable e) {
-            fail("Test failed because Exception was raised.");
+            fail(e.getCause());
         }
     }
     

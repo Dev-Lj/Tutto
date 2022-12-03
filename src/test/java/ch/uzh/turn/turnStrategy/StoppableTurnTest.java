@@ -38,7 +38,7 @@ public class StoppableTurnTest
             invoke_computeTurn(aStoppableTurn, aMockDiceManager);
             assertEquals(true, aStoppableTurn.hasLost());
         } catch (Throwable e) {
-            fail("Test failed because Exception was raised.");
+            fail(e.getCause());
         }
     }
 
@@ -50,7 +50,7 @@ public class StoppableTurnTest
             invoke_computeTurn(aStoppableTurn, aMockDiceManager);
             assertEquals(false, aStoppableTurn.hasLost());
         } catch (Throwable e) {
-            fail("Test failed because Exception was raised.");
+            fail(e.getCause());
         }
     }
 
@@ -62,7 +62,7 @@ public class StoppableTurnTest
             DiceManager pDiceManager = (DiceManager) invoke_turnLoop(aStoppableTurn, aMockDiceManager, ConsoleInput.instance());
             assertEquals(aMockDiceManager, pDiceManager);
         } catch (Throwable e) {
-            fail("Test failed because Exception was raised.");
+            fail(e.getCause());
         }
     }
 
@@ -73,7 +73,7 @@ public class StoppableTurnTest
             DiceManager pDiceManager = (DiceManager) invoke_turnLoop(aStoppableTurn, aMockDiceManager, ConsoleInput.instance());
             assertEquals(aMockDiceManager, pDiceManager);
         } catch (Throwable e) {
-            fail("Test failed because Exception was raised.");
+            fail(e.getCause());
         }
     }
     
@@ -86,7 +86,7 @@ public class StoppableTurnTest
             DiceManager aDiceManager = invoke_turnLoop(aStoppableTurn, aMockDiceManager, aTestingConsoleInput);
             assertEquals(aDiceManager.getScore(), aStoppableTurn.getScore());
         } catch (Throwable e) {
-            fail("Test failed because Exception was raised.");
+            fail(e.getCause());
         }
     }
     
@@ -99,7 +99,7 @@ public class StoppableTurnTest
             DiceManager aDiceManager = invoke_turnLoop(aStoppableTurn, aMockDiceManager, aTestingConsoleInput);
             assertTrue(!aDiceManager.hadNullTurn() && !aDiceManager.isTutto());
         } catch (Throwable e) {
-            fail("Test failed because Exception was raised.");
+            fail(e.getCause());
         }
     }
     

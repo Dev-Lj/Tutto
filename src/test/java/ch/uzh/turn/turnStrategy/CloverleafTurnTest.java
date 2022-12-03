@@ -48,7 +48,7 @@ public class CloverleafTurnTest
             Command aCommand = invoke_evaluateTurn(aCloverleafTurn, currentTurn);
             assertTrue(aCommand instanceof EndGameCommand);
         } catch (Throwable e) {
-            fail("Test failed because Exception was raised.");
+            fail(e.getCause());
         }
     }
 
@@ -61,7 +61,7 @@ public class CloverleafTurnTest
             Command aCommand = invoke_evaluateTurn(aCloverleafTurn, currentTurn);
             assertTrue(aCommand instanceof NullCommand);
         } catch (Throwable e) {
-            fail("Test failed because Exception was raised.");
+            fail(e.getCause());
         }
     }
     
@@ -73,7 +73,7 @@ public class CloverleafTurnTest
             invoke_computeTurn(aCloverleafTurn, currentTurn, aMockDiceManager);
             assertEquals(false, currentTurn.isActive());
         } catch (Throwable e) {
-            fail("Test failed because Exception was raised.");
+            fail(e.getCause());
         }
     }
 
@@ -83,7 +83,7 @@ public class CloverleafTurnTest
             invoke_computeTurn(aCloverleafTurn, currentTurn, new DiceManager(6, null));
             assertEquals(true, currentTurn.isActive());
         } catch (Throwable e) {
-            fail("Test failed because Exception was raised.");
+            fail(e.getCause());
         }
     }
 
@@ -95,7 +95,7 @@ public class CloverleafTurnTest
             DiceManager pDiceManager = (DiceManager) invoke_turnLoop(aCloverleafTurn, aMockDiceManager, ConsoleInput.instance());
             assertEquals(aMockDiceManager, pDiceManager);
         } catch (Throwable e) {
-            fail("Test failed because Exception was raised.");
+            fail(e.getCause());
         }
     }
 
@@ -108,7 +108,7 @@ public class CloverleafTurnTest
             DiceManager pDiceManager = (DiceManager) invoke_turnLoop(aCloverleafTurn, aMockDiceManager, ConsoleInput.instance());
             assertEquals(aMockDiceManager, pDiceManager);
         } catch (Throwable e) {
-            fail("Test failed because Exception was raised.");
+            fail(e.getCause());
         }
     }
     /*
@@ -119,7 +119,7 @@ public class CloverleafTurnTest
             DiceManager aDiceManager = invoke_turnLoop(aCloverleafTurn, aMockDiceManager, aTestingConsoleInput);
             assertTrue(aDiceManager.hadNullTurn() || aDiceManager.isTutto());
         } catch (Throwable e) {
-            fail("Test failed because Exception was raised.");
+            fail(e.getCause());
         }
         
     }
@@ -134,7 +134,7 @@ public class CloverleafTurnTest
             Command aCommand = aCloverleafTurn.playTurn(currentTurn);
             assertTrue(aCommand instanceof NullCommand);
         } catch (Throwable e) {
-            fail("Test failed because Exception was raised.");
+            fail(e.getCause());
         }
     }
     

@@ -38,7 +38,7 @@ public class FireworksTurnTest
             DiceManager pDiceManager = (DiceManager) invoke_turnLoop(new FireworksTurn(), aMockDiceManager, ConsoleInput.instance());
             assertEquals(aMockDiceManager, pDiceManager);
         } catch (Throwable e) {
-            fail("Test failed because Exception was raised.");
+            fail(e.getCause());
         }
     }
     
@@ -50,7 +50,7 @@ public class FireworksTurnTest
             DiceManager pDiceManager = (DiceManager) invoke_turnLoop(new FireworksTurn(), aMockDiceManager, ConsoleInput.instance());
             assertEquals(aMockDiceManager, pDiceManager);
         } catch (Throwable e) {
-            fail("Test failed because Exception was raised.");
+            fail(e.getCause());
         }
     }
 
@@ -64,7 +64,7 @@ public class FireworksTurnTest
             DiceManager aDiceManager = invoke_turnLoop(new FireworksTurn(), new DiceManager(6, new NormalDiceScoreStrategy()), aTestingConsoleInput);
             assertTrue(aDiceManager.hadNullTurn() || aDiceManager.isTutto());
         } catch (Throwable e) {
-            fail("Test failed because Exception was raised.");
+            fail(e.getCause());
         }
         
     }
