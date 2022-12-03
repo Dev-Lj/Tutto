@@ -20,6 +20,10 @@ import ch.uzh.turn.PlayerTurn;
 
 public class CloverleafTurnTest 
 {
+    CloverleafTurn aCloverleafTurn = new CloverleafTurn();
+    PlayerTurn currentTurn = new PlayerTurn();
+    MockDiceManager aMockDiceManager = new MockDiceManager(new NormalDiceScoreStrategy());
+
     private Command invoke_evaluateTurn(CloverleafTurn aCloverleafTurn, PlayerTurn currentTurn) throws Throwable{
         Method method = CloverleafTurn.class.getDeclaredMethod("evaluateTurn", PlayerTurn.class);
         method.setAccessible(true);
@@ -40,9 +44,6 @@ public class CloverleafTurnTest
 
     @Test
     void testEvaluateTurn_active() {
-        CloverleafTurn aCloverleafTurn = new CloverleafTurn();
-        PlayerTurn currentTurn = new PlayerTurn();
-
         try {
             Command aCommand = invoke_evaluateTurn(aCloverleafTurn, currentTurn);
             assertTrue(aCommand instanceof EndGameCommand);
@@ -53,9 +54,6 @@ public class CloverleafTurnTest
 
     @Test
     void testEvaluateTurn_notActive() {
-        CloverleafTurn aCloverleafTurn = new CloverleafTurn();
-        PlayerTurn currentTurn = new PlayerTurn();
-
         try {
             Field active = PlayerTurn.class.getDeclaredField("active");
             active.setAccessible(true);
@@ -69,9 +67,6 @@ public class CloverleafTurnTest
     
     @Test
     void testComputeTurn_NullTurn() {
-        CloverleafTurn aCloverleafTurn = new CloverleafTurn();
-        PlayerTurn currentTurn = new PlayerTurn();
-        MockDiceManager aMockDiceManager = new MockDiceManager(new NormalDiceScoreStrategy());
         aMockDiceManager.setHadNullTurn(true);
 
         try {
@@ -84,9 +79,6 @@ public class CloverleafTurnTest
 
     @Test
     void testComputeTurn_NoNullTurn() {
-        CloverleafTurn aCloverleafTurn = new CloverleafTurn();
-        PlayerTurn currentTurn = new PlayerTurn();
-
         try {
             invoke_computeTurn(aCloverleafTurn, currentTurn, new DiceManager(6, null));
             assertEquals(true, currentTurn.isActive());
@@ -97,11 +89,10 @@ public class CloverleafTurnTest
 
     @Test
     void testturnLoop_hadNullTurn() {
-        MockDiceManager aMockDiceManager = new MockDiceManager(new NormalDiceScoreStrategy());
         aMockDiceManager.setHadNullTurn(true);
         
         try {
-            DiceManager pDiceManager = (DiceManager) invoke_turnLoop(new CloverleafTurn(), aMockDiceManager, ConsoleInput.instance());
+            DiceManager pDiceManager = (DiceManager) invoke_turnLoop(aCloverleafTurn, aMockDiceManager, ConsoleInput.instance());
             assertEquals(aMockDiceManager, pDiceManager);
         } catch (Throwable e) {
             fail("Test failed because Exception was raised.");
@@ -111,20 +102,31 @@ public class CloverleafTurnTest
     
     @Test
     void testturnLoop_isTutto() {
-        MockDiceManager aMockDiceManager = new MockDiceManager( new NormalDiceScoreStrategy());
         aMockDiceManager.setIsTutto(true);
+
         try {
-            DiceManager pDiceManager = (DiceManager) invoke_turnLoop(new CloverleafTurn(), aMockDiceManager, ConsoleInput.instance());
+            DiceManager pDiceManager = (DiceManager) invoke_turnLoop(aCloverleafTurn, aMockDiceManager, ConsoleInput.instance());
             assertEquals(aMockDiceManager, pDiceManager);
         } catch (Throwable e) {
             fail("Test failed because Exception was raised.");
         }
     }
+    /*
+    void testturnLoop_playTurn()  {
+        String[] aStrings = {"R", "R", "R", "R", "R", "R", "R", "R", "R", "R", "R", "R"};
+        try {
+            ConsoleInput aTestingConsoleInput = TestingConsoleInput.createFakeScannerInstance(aStrings);
+            DiceManager aDiceManager = invoke_turnLoop(aCloverleafTurn, aMockDiceManager, aTestingConsoleInput);
+            assertTrue(aDiceManager.hadNullTurn() || aDiceManager.isTutto());
+        } catch (Throwable e) {
+            fail("Test failed because Exception was raised.");
+        }
+        
+    }
+    */
 
     @Test
     void testplayTurn_notActive() {
-        CloverleafTurn aCloverleafTurn = new CloverleafTurn();
-        PlayerTurn currentTurn = new PlayerTurn();
         try {
             Field active = PlayerTurn.class.getDeclaredField("active");
             active.setAccessible(true);
@@ -136,17 +138,5 @@ public class CloverleafTurnTest
         }
     }
     
-    @Test
-    void testturnLoop_playTurn()  {
-        String[] aStrings = {"R", "R", "R", "R", "R", "R"};
-        try {
-            ConsoleInput aTestingConsoleInput = TestingConsoleInput.createFakeScannerInstance(aStrings);
-            DiceManager aDiceManager = invoke_turnLoop(new CloverleafTurn(), new DiceManager(6, new NormalDiceScoreStrategy()), aTestingConsoleInput);
-            assertTrue(aDiceManager.hadNullTurn() || aDiceManager.isTutto());
-        } catch (Throwable e) {
-            fail("Test failed because Exception was raised.");
-        }
-        
-    }
     
 }
