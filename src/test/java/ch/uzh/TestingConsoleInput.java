@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class TestingConsoleInput {
+    private TestingConsoleInput(){}
 
     /**
      * Creates instance of ConsoleInput with predefined input.
