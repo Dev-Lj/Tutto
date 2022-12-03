@@ -10,12 +10,11 @@ import org.junit.jupiter.api.Test;
 
 public class DiceManagerTest {
     MockDiceScoreStrategy FDSS = new MockDiceScoreStrategy();
-    /* NormalDiceScoreStrategy FDSS = new NormalDiceScoreStrategy(); */
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
     MockRandomNumber FRN = new MockRandomNumber();
 
     @Test
-    public void initalScore() {
+    public void initalStats() {
         FRN.setReulsultNumber(1);
         DiceManager DM = new DiceManager(6, FDSS, FRN);
         assertEquals(0, DM.getScore());
@@ -24,10 +23,8 @@ public class DiceManagerTest {
 
     }
 
-    // TODO please give the tests a descriptive name -> if a test fails and only the name is of the test is printed, it should be clear what went wrong
-
     @Test
-    public void rollDice1() {
+    public void rollSixStatsTrump() {
         FRN.setReulsultNumber(1);
         DiceManager DM = new DiceManager(6, FDSS, FRN);
         DM.rollDice();
@@ -37,7 +34,7 @@ public class DiceManagerTest {
     }
 
     @Test
-    public void rollDice2() {
+    public void rollTwoStatsNotTrump() {
         FRN.setReulsultNumber(2);
         DiceManager DM = new DiceManager(2, FDSS, FRN);
         DM.rollDice();
@@ -47,17 +44,13 @@ public class DiceManagerTest {
     }
 
     @Test
-    public void rollDice3() {
+    public void rollThreeStatsNotTrump() {
         FRN.setReulsultNumber(2);
         DiceManager DM = new DiceManager(4, FDSS, FRN);
         DM.rollDice();
         assertEquals(1, DM.getScore());
         assertEquals(false, DM.isTutto());
-        assertEquals(false, DM.hadNullTurn());
-        DM.rollDice();
-        assertEquals(2, DM.getScore());
         assertEquals(true, DM.hadNullTurn());
-        assertEquals(false, DM.isTutto());
     }
 
     @BeforeEach
@@ -66,7 +59,7 @@ public class DiceManagerTest {
     }
 
     @Test
-    public void printScoredDices1() {
+    public void printsTrumpDice() {
         FRN.setReulsultNumber(1);
         DiceManager DM = new DiceManager(2, FDSS, FRN);
         DM.rollDice();
@@ -76,12 +69,12 @@ public class DiceManagerTest {
     }
 
     @Test
-    public void printScoredDices2() {
+    public void printNotTrump() {
         FRN.setReulsultNumber(2);
         DiceManager DM = new DiceManager(5, FDSS, FRN);
         DM.rollDice();
         DM.printScoredDices();
-        assertEquals("Dices scored so far" + "\n" + "Number: 2 -> 3 times", outputStreamCaptor.toString()
+        assertEquals("Dices scored so far", outputStreamCaptor.toString()
                 .trim());
 
     }
