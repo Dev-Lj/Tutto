@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ch.uzh.ConsoleInput;
+import ch.uzh.TestingConsoleInput;
 import ch.uzh.command.Command;
 import ch.uzh.command.NullCommand;
 import ch.uzh.dice.DiceManager;
@@ -25,103 +26,85 @@ import java.lang.reflect.Method;
  */
 public class StraightTurnTest 
 {
+    StraightTurn aStraightTurn = new StraightTurn();
+    MockDiceManager aMockDiceManager = new MockDiceManager( new StraightDiceScoreStrategy());
     
     private Command invoke_evaluateTurn(StraightTurn aStraightTurn, PlayerTurn currentTurn, DiceManager aDiceManager) throws Throwable{
         Method method = StraightTurn.class.getDeclaredMethod("evaluateTurn", PlayerTurn.class, DiceManager.class);
         method.setAccessible(true);
-        try {
-            return (Command) method.invoke(aStraightTurn, currentTurn, aDiceManager);
-        } catch (InvocationTargetException e) {
-            throw e.getCause();
-        }
+        return (Command) method.invoke(aStraightTurn, currentTurn, aDiceManager);
     }
 
     private DiceManager invoke_turnLoop(DiceManager aDiceManager, ConsoleInput aConsoleInput) throws Throwable{
         Method method = StraightTurn.class.getDeclaredMethod("turnLoop", DiceManager.class, ConsoleInput.class);
         method.setAccessible(true);
+        return (DiceManager) method.invoke(new StraightTurn(), aDiceManager, aConsoleInput);
+    }
+
+
+    @Test
+    void testEvaluateTurn_Tutto() {
+        aMockDiceManager.setIsTutto(true);
+
         try {
-            return (DiceManager) method.invoke(new StraightTurn(), aDiceManager, aConsoleInput);
-        } catch (InvocationTargetException e) {
-            throw e.getCause();
-        }
+            Command aCommand = invoke_evaluateTurn(aStraightTurn, new PlayerTurn(), aMockDiceManager);
+            assertEquals(2000, aStraightTurn.getScore());
+            assertTrue(aCommand instanceof NullCommand);
+        } catch (Throwable e) {
+            fail("Test failed because Exception was raised.");
+        }       
     }
 
     @Test
-    void testGetScore() throws NoSuchFieldError, SecurityException, IllegalArgumentException, IllegalAccessException, NoSuchFieldException {
-        StraightTurn aTurn = new StraightTurn();
-        Field field = aTurn.getClass().getDeclaredField("score");
-        field.setAccessible(true);
-        field.set(aTurn, 100);
-        assertEquals(100, aTurn.getScore());
+    void testEvaluateTurn_noTutto() {
+        aMockDiceManager.setIsTutto(false);
+
+        try {
+            Command aCommand = invoke_evaluateTurn(aStraightTurn, new PlayerTurn(), aMockDiceManager);
+            assertEquals(0, aStraightTurn.getScore());
+            assertTrue(aCommand instanceof NullCommand);
+        } catch (Throwable e) {
+            fail("Test failed because Exception was raised.");
+        } 
     }
 
-    /**
-     * @throws Throwable
-     */
     @Test
-    void testEvaluateTurn_Tutto() throws Throwable {
-        StraightTurn aStraightTurn = new StraightTurn();
-        MockDiceManager StubDiceManager = new MockDiceManager( new StraightDiceScoreStrategy());
-        StubDiceManager.setIsTutto(true);
+    void testturnLoop_hadNullTurn() {
+        aMockDiceManager.setHadNullTurn(true);
 
-        Command aCommand = invoke_evaluateTurn(aStraightTurn, new PlayerTurn(), (DiceManager) StubDiceManager);
-
-        assertEquals(2000, aStraightTurn.getScore());
-        assertTrue(aCommand instanceof NullCommand);
+        try {
+            DiceManager pDiceManager = (DiceManager) invoke_turnLoop(aMockDiceManager, ConsoleInput.instance());
+            assertEquals(aMockDiceManager, pDiceManager);
+        } catch (Throwable e) {
+            fail("Test failed because Exception was raised.");
+        }         
     }
 
-    /**
-     * @throws Throwable
-     */
     @Test
-    void testEvaluateTurn_noTutto() throws Throwable {
-        StraightTurn aStraightTurn = new StraightTurn();
-        MockDiceManager StubDiceManager = new MockDiceManager( new StraightDiceScoreStrategy());
-        StubDiceManager.setIsTutto(false);
+    void testturnLoop_isTutto()  {
+        aMockDiceManager.setIsTutto(true);
 
-        Command aCommand = invoke_evaluateTurn(aStraightTurn, new PlayerTurn(), StubDiceManager);
-
-
-        assertEquals(0, aStraightTurn.getScore());
-        assertTrue(aCommand instanceof NullCommand);
+        try {
+            DiceManager pDiceManager = (DiceManager) invoke_turnLoop(aMockDiceManager, ConsoleInput.instance());
+            assertEquals(aMockDiceManager, pDiceManager);
+        } catch (Throwable e) {
+            fail("Test failed because Exception was raised.");
+        }    
     }
-
-    /**
-     * @throws Throwable
-     */
+    
     @Test
-    void testturnLoop_hadNullTurn() throws Throwable {
-        DiceManager aDiceManager = new DiceManager(6, new StraightDiceScoreStrategy());
-        Field field = DiceManager.class.getDeclaredField("hadNullTurn");
-        field.setAccessible(true);
-        field.set(aDiceManager, true);
-
-        DiceManager pDiceManager = (DiceManager) invoke_turnLoop(aDiceManager, ConsoleInput.instance());
-
-        assertEquals(aDiceManager, pDiceManager);
-    }
-
-    /**
-     * @throws Throwable
-     */
-    @Test
-    void testturnLoop_isTutto() throws Throwable {
-        MockDiceManager StubDiceManager = new MockDiceManager( new StraightDiceScoreStrategy());
-        StubDiceManager.setIsTutto(true);
-
-        DiceManager pDiceManager = (DiceManager) invoke_turnLoop(StubDiceManager, ConsoleInput.instance());
-        assertEquals(StubDiceManager, pDiceManager);
-    }
-    /* 
-    @Test
-    void turnLoop_playTurn() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, Throwable {
-        String[] aStrings = {"R", "R", "R", "R", "R", "R"};
-        ConsoleInput aTestingConsoleInput = TestingConsoleInput.createFakeScannerInstance(aStrings);
+    void turnLoop_playTurn() {
+        String[] aStrings = {"R", "E"};
         
-        DiceManager aDiceManager = invoke_turnLoop(new DiceManager(6, new NormalDiceScoreStrategy()), aTestingConsoleInput);
-        assertTrue(aDiceManager.hadNullTurn() || aDiceManager.isTutto());
+        try {
+            ConsoleInput aTestingConsoleInput = TestingConsoleInput.createFakeScannerInstance(aStrings);
+            DiceManager aDiceManager = invoke_turnLoop(new DiceManager(6, new StraightDiceScoreStrategy()), aTestingConsoleInput);
+            assertTrue(aDiceManager.getScore(), aStoppableTurn.getScore());
+        } catch (Throwable e) {
+            fail("Test failed because Exception was raised.");
+        }    
     }
-    */
+    
     
 }
 

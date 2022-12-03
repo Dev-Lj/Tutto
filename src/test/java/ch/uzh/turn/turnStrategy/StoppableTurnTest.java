@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import ch.uzh.ConsoleInput;
 import ch.uzh.TestingConsoleInput;
+import ch.uzh.dice.DiceManager;
 import ch.uzh.dice.MockDiceManager;
 import ch.uzh.dice.NormalDiceScoreStrategy;
 
@@ -82,8 +83,8 @@ public class StoppableTurnTest
 
         try {
             ConsoleInput aTestingConsoleInput = TestingConsoleInput.createFakeScannerInstance(aStrings);
-            DiceManager aDiceManager = invoke_turnLoop(aStoppableTurn, new DiceManager(), aTestingConsoleInput);
-            assertTrue(aDiceManager.hadNullTurn() || aDiceManager.isTutto());
+            DiceManager aDiceManager = invoke_turnLoop(aStoppableTurn, aMockDiceManager, aTestingConsoleInput);
+            assertEquals(aDiceManager.getScore(), aStoppableTurn.getScore());
         } catch (Throwable e) {
             fail("Test failed because Exception was raised.");
         }
