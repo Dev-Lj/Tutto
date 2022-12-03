@@ -40,18 +40,22 @@ public class StraightDiceScoreStrategyTest {
     }
 
     @Test
-    public void calculateScoredDices() {
-        Map<Integer, Integer> dicees = new HashMap<Integer, Integer>();
+    public void ScoredDices3Diff() {
+        dicees.clear();
+        scoredDicees.clear();
+        resultDicees.clear();
         dicees.put(1, 3);
         dicees.put(2, 1);
         dicees.put(3, 1);
-        Map<Integer, Integer> scoredDicees = new HashMap<Integer, Integer>();
         scoredDicees.put(1, 1);
-        Map<Integer, Integer> resultDicees = new HashMap<Integer, Integer>();
         resultDicees.put(1, 1);
         resultDicees.put(2, 1);
         resultDicees.put(3, 1);
         assertEquals(resultDicees, SDSS.calculateScoredDices(dicees, scoredDicees));
+    }
+
+    @Test
+    public void ScoredDices6Diff() {
         dicees.clear();
         scoredDicees.clear();
         resultDicees.clear();
@@ -71,8 +75,20 @@ public class StraightDiceScoreStrategyTest {
     }
 
     @Test
+    public void ScoredDices1Diff() {
+        dicees.clear();
+        scoredDicees.clear();
+        resultDicees.clear();
+        dicees.put(1, 6);
+        resultDicees.put(1, 1);
+        assertEquals(resultDicees, SDSS.calculateScoredDices(dicees, scoredDicees));
+    }
+
+    @Test
     public void calculateRemainingDice() {
-        Map<Integer, Integer> dicees = new HashMap<Integer, Integer>();
+        dicees.clear();
+        scoredDicees.clear();
+        resultDicees.clear();
         dicees.put(1, 6);
         assertEquals(5, SDSS.calculateRemainingDice(dicees, 6));
         dicees.clear();
