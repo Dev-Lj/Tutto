@@ -69,7 +69,7 @@ public class GameTest {
         Card card = new Card("mockCard", strategy);
         PlayerTurn currentTurn = new PlayerTurn();
         Player player = players.get(0);
-        ConsoleInput input = TestingConsoleInput.createInstance(new String[]{"E"});
+        ConsoleInput input = TestingConsoleInput.createFakeScannerInstance(new String[]{"E"});
         try {
             TestingGame.playCardTurn(testGame, card, currentTurn, player, input);
         } catch (Exception e) {
@@ -86,7 +86,7 @@ public class GameTest {
         Card card = new Card("mockCard", strategy);
         PlayerTurn currentTurn = new PlayerTurn();
         Player player = players.get(0);
-        ConsoleInput input = TestingConsoleInput.createInstance(new String[]{"D"});
+        ConsoleInput input = TestingConsoleInput.createFakeScannerInstance(new String[]{"D"});
         try {
             TestingGame.playCardTurn(testGame, card, currentTurn, player, input);
         } catch (Exception e) {
@@ -105,7 +105,7 @@ public class GameTest {
         PlayerTurn currentTurn = new PlayerTurn();
         Player player = players.get(0);
         // Empty input, so if the method asks the player if they want to play again, an error would be thrown
-        ConsoleInput input = TestingConsoleInput.createInstance(new String[]{});
+        ConsoleInput input = TestingConsoleInput.createFakeScannerInstance(new String[]{});
         try {
             TestingGame.playCardTurn(testGame, card, currentTurn, player, input);
         } catch (Exception e) {
@@ -141,7 +141,7 @@ public class GameTest {
     @Timeout(value = 1, unit = TimeUnit.SECONDS)
     void testAwaitRollDice() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, Throwable {
         // fails with timeout/no new Input
-        TestingGame.awaitRollDice(testGame, TestingConsoleInput.createInstance(new String[]{"D", "R"}));
+        TestingGame.awaitRollDice(testGame, TestingConsoleInput.createFakeScannerInstance(new String[]{"D", "R"}));
         return;
     }
 }

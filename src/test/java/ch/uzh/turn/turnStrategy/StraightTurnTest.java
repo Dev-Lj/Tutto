@@ -120,7 +120,7 @@ public class StraightTurnTest
     @Test
     void turnLoop_playTurn() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, Throwable, TimeoutException {
         String[] aStrings = {"R", "R", "R", "R", "R", "R"};
-        ConsoleInput aTestingConsoleInput = TestingConsoleInput.createInstance(aStrings);
+        ConsoleInput aTestingConsoleInput = TestingConsoleInput.createFakeScannerInstance(aStrings);
         
         DiceManager aDiceManager = invoke_turnLoop(new DiceManager(6, new NormalDiceScoreStrategy()), aTestingConsoleInput);
         assertTrue(aDiceManager.hadNullTurn() || aDiceManager.isTutto());

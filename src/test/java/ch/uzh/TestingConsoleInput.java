@@ -13,11 +13,25 @@ public class TestingConsoleInput {
      * @param inputs each input represents one Line of input
      * @return ConsoleInput instance
      */
-    public static ConsoleInput createInstance(String[] inputs) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+    public static ConsoleInput createFakeScannerInstance(String[] inputs) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         Constructor<ConsoleInput> constructor = ConsoleInput.class.getDeclaredConstructor(Scanner.class);
         constructor.setAccessible(true);
         String inputString = String.join("\n", inputs);
         ConsoleInput input = constructor.newInstance(new Scanner(inputString));
+        return input;
+    }
+
+    /**
+     * Creates instance of ConsoleInput with an empty scanner source.
+     * Should be used for testing in order to avoid tampering with System.in
+     * 
+     * @param inputs each input represents one Line of input
+     * @return ConsoleInput instance
+     */
+    public static ConsoleInput createNullSourceScannerInstance() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+        Constructor<ConsoleInput> constructor = ConsoleInput.class.getDeclaredConstructor(Scanner.class);
+        constructor.setAccessible(true);
+        ConsoleInput input = constructor.newInstance(new Scanner(""));
         return input;
     }
     
