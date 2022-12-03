@@ -23,23 +23,16 @@ import ch.uzh.dice.StraightDiceScoreStrategy;
 public class FireworksTurnTest
 {
     private DiceManager invoke_turnLoop(FireworksTurn aFireworksTurn, DiceManager aDiceManager, ConsoleInput aConsoleInput) throws Throwable{
-        try {
-            Method method = FireworksTurn.class.getDeclaredMethod("turnLoop", DiceManager.class, ConsoleInput.class);
-            method.setAccessible(true);
-            return (DiceManager) method.invoke(aFireworksTurn, aDiceManager, aConsoleInput);
-        } catch (Exception e) {
-            throw e.getCause();
-        }
+        Method method = FireworksTurn.class.getDeclaredMethod("turnLoop", DiceManager.class, ConsoleInput.class);
+        method.setAccessible(true);
+        return (DiceManager) method.invoke(aFireworksTurn, aDiceManager, aConsoleInput);
     }
-
-    /**
-     * @throws Throwable
-     */
     
     @Test
-    void testturnLoop_hadNullTurn() throws Throwable {
+    void testturnLoop_hadNullTurn() {
+        DiceManager aDiceManager = new DiceManager(6, new StraightDiceScoreStrategy());
+
         try {
-            DiceManager aDiceManager = new DiceManager(6, new StraightDiceScoreStrategy());
             Field field = DiceManager.class.getDeclaredField("hadNullTurn");
             field.setAccessible(true);
             field.set(aDiceManager, true);
@@ -47,20 +40,19 @@ public class FireworksTurnTest
             DiceManager pDiceManager = (DiceManager) invoke_turnLoop(new FireworksTurn(), aDiceManager, ConsoleInput.instance());
             assertEquals(aDiceManager, pDiceManager);
         } catch (Throwable e) {
-            fail();
+            fail("Test failed because Exception was raised.");
         }
     }
-    /*
+    
     @Test
-    void testturnLoop_isTutto() throws Throwable {
+    void testturnLoop_isTutto() {
+        MockDiceManager StubDiceManager = new MockDiceManager( new StraightDiceScoreStrategy());
+        StubDiceManager.setIsTutto(true);
         try {
-            MockDiceManager StubDiceManager = new MockDiceManager( new StraightDiceScoreStrategy());
-            StubDiceManager.setIsTutto(true);
             DiceManager pDiceManager = (DiceManager) invoke_turnLoop(new FireworksTurn(), StubDiceManager, ConsoleInput.instance());
-
             assertEquals(StubDiceManager, pDiceManager);
         } catch (Throwable e) {
-            fail();
+            fail("Test failed because Exception was raised.");
         }
     }
 
@@ -69,14 +61,14 @@ public class FireworksTurnTest
     void turnLoop_playTurn() {
         String[] aStrings = {"R", "R", "R", "R", "R", "R"};
         try {
-            ConsoleInput aTestingConsoleInput = TestingConsoleInput.createInstance(aStrings);
+            ConsoleInput aTestingConsoleInput = TestingConsoleInput.createFakeScannerInstance(aStrings);
             DiceManager aDiceManager = invoke_turnLoop(new FireworksTurn(), new DiceManager(6, new NormalDiceScoreStrategy()), aTestingConsoleInput);
             assertTrue(aDiceManager.hadNullTurn() || aDiceManager.isTutto());
         } catch (Throwable e) {
-            fail();
+            fail("Test failed because Exception was raised.");
         }
         
     }
-    */
+    
 }
 
