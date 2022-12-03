@@ -102,7 +102,7 @@ public class ConsoleInput {
         }
 
         List<Character> acceptedInputsList = Arrays.asList(acceptedInputs);
-        Boolean inputAccepted = false;
+        boolean inputAccepted = false;
         char input = acceptedInputs[0];
         while(!inputAccepted) {
             try{
