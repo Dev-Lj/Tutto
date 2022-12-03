@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 public class StraightDiceScoreStrategyTest {
     StraightDiceScoreStrategy SDSS = new StraightDiceScoreStrategy();
-
+    // TODO please split up your tests, so that each function only tests one expected behaviour
     @Test
     public void calculateDiceScore() {
         Map<Integer, Integer> dicees = new HashMap<Integer, Integer>();

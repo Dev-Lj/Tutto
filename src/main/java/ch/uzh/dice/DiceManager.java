@@ -58,6 +58,7 @@ public class DiceManager {
             System.out.print(scoredDices.get(key));
             System.out.print(" times");
             System.out.println();
+            // TODO replace with String.format("Number: %d -> %d times", key, scoredDices.get(key));
         }
     }
 

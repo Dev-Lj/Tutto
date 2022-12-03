@@ -1,7 +1,9 @@
 package ch.uzh.turn.turnStrategy;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import static org.junit.jupiter.api.Assertions.*;
 
 import ch.uzh.ConsoleInput;
 import ch.uzh.command.Command;
@@ -12,13 +14,15 @@ import ch.uzh.dice.NormalDiceScoreStrategy;
 import ch.uzh.dice.StraightDiceScoreStrategy;
 import ch.uzh.turn.PlayerTurn;
 
-import static org.junit.jupiter.api.Assertions.*;
+
 
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 
 
@@ -115,22 +119,27 @@ public class StraightTurnTest
 
         assertEquals(StubDiceManager, pDiceManager);
     }
-    /*
      
     @Test
-    @Timeout(value = 1, unit = TimeUnit.SECONDS)
-    void testturnLoop_endlessLoop() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, Throwable {
+    void testTurnLoop_endlessLoop() throws Throwable{
+        Exception exception = assertThrows(TimeoutException.class, () -> {
+            turnLoop_endlessLoop();
+        });
+        assertTrue(exception instanceof TimeoutException);
+    }
+    
+    @Timeout(3)
+    void turnLoop_endlessLoop() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, Throwable, TimeoutException {
         // fails with timeout
         MockDiceManager StubDiceManager = new MockDiceManager( new StraightDiceScoreStrategy());
         StubDiceManager.setIsTutto(false);
-        Field field = DiceManager.class.getDeclaredField("hadNullTurn");
-        field.setAccessible(true);
-        field.set(StubDiceManager, false);
-
+        StubDiceManager.setHadNullTurn(false);
+        
         invoke_turnLoop(StubDiceManager, ConsoleInput.instance());
         return;
     }
-    */
+
+    
 }
 
 

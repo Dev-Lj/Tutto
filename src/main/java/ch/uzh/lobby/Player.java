@@ -23,7 +23,7 @@ public class Player implements Comparable<Player> {
     }
 
     /**
-     * @pre addition >= 0
+     * @pre reduction >= 0
      */
     public void reduceScore(int reduction) {
         assert reduction >= 0;

@@ -8,6 +8,11 @@ import java.util.Scanner;
 
 public class TestingConsoleInput {
 
+    /**
+     * Creates instance of ConsoleInput with predefined input.
+     * @param inputs each input represents one Line of input
+     * @return ConsoleInput instance
+     */
     public static ConsoleInput createInstance(String[] inputs) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         Constructor<ConsoleInput> constructor = ConsoleInput.class.getDeclaredConstructor(Scanner.class);
         constructor.setAccessible(true);
@@ -16,6 +21,15 @@ public class TestingConsoleInput {
         return input;
     }
     
+    /**
+     * Makes private method readNumberInput accessible
+     * @param testInput ConsoleInput from which you wish to access method readNumberInput
+     * @param input Fake user input
+     * @param min
+     * @param max
+     * @return Number input
+     * @throws Throwable
+     */
     public static int readNumberInput(ConsoleInput testInput, String input, int min, int max) throws Throwable {
         Method method = testInput.getClass().getDeclaredMethod("readNumberInput", Scanner.class, Integer.TYPE, Integer.TYPE, String.class);
         method.setAccessible(true);
@@ -26,6 +40,15 @@ public class TestingConsoleInput {
         }
     }
 
+    /**
+     * Makes private method readStringInput accessible
+     * @param testInput ConsoleInput from which you wish to access method readStringInput
+     * @param input Fake user input
+     * @param minLength
+     * @param maxLength
+     * @return String input
+     * @throws Throwable
+     */
     public static String readStringInput(ConsoleInput testInput, String input, int minLength, int maxLength) throws Throwable {
         Method method = testInput.getClass().getDeclaredMethod("readStringInput", Scanner.class, Integer.TYPE, Integer.TYPE, String.class);
         method.setAccessible(true);
@@ -36,6 +59,14 @@ public class TestingConsoleInput {
         }
     }
 
+    /**
+     * Makes private method readCharacterInput accessible
+     * @param testInput ConsoleInput from which you wish to access method readNumberInput
+     * @param input
+     * @param acceptedInputs
+     * @return char input
+     * @throws Throwable
+     */
     public static char readCharacterInput(ConsoleInput testInput, String input, List<Character> acceptedInputs) throws Throwable {
         Method method = testInput.getClass().getDeclaredMethod("readCharacterInput", Scanner.class, List.class, String.class);
         method.setAccessible(true);
