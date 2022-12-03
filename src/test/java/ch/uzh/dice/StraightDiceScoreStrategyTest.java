@@ -7,40 +7,35 @@ import org.junit.jupiter.api.Test;
 
 public class StraightDiceScoreStrategyTest {
     StraightDiceScoreStrategy SDSS = new StraightDiceScoreStrategy();
-    // TODO please split up your tests, so that each function only tests one expected behaviour
+    Map<Integer, Integer> dicees = new HashMap<Integer, Integer>();
+    Map<Integer, Integer> resultDicees = new HashMap<Integer, Integer>();
+    Map<Integer, Integer> scoredDicees = new HashMap<Integer, Integer>();
+
     @Test
-    public void calculateDiceScore() {
-        Map<Integer, Integer> dicees = new HashMap<Integer, Integer>();
+    public void DiceScore1Diff() {
+        dicees.clear();
         dicees.put(1, 6);
         assertEquals(0, SDSS.calculateDiceScore(dicees));
-        dicees.clear();
-        dicees.put(5, 6);
-        assertEquals(0, SDSS.calculateDiceScore(dicees));
-        dicees.clear();
-        dicees.put(6, 6);
-        assertEquals(0, SDSS.calculateDiceScore(dicees));
-        dicees.clear();
-        dicees.put(1, 4);
-        assertEquals(0, SDSS.calculateDiceScore(dicees));
-        dicees.clear();
-        dicees.put(5, 4);
-        assertEquals(0, SDSS.calculateDiceScore(dicees));
+    }
+
+    @Test
+    public void DiceScore3Diff() {
         dicees.clear();
         dicees.put(2, 2);
         dicees.put(3, 2);
         dicees.put(4, 2);
         assertEquals(0, SDSS.calculateDiceScore(dicees));
-        dicees.clear();
-        dicees.put(4, 3);
-        assertEquals(0, SDSS.calculateDiceScore(dicees));
+    }
+
+    @Test
+    public void DiceScore6Diff() {
         dicees.clear();
         dicees.put(1, 1);
-        assertEquals(0, SDSS.calculateDiceScore(dicees));
-        dicees.clear();
+        dicees.put(2, 1);
+        dicees.put(3, 1);
+        dicees.put(4, 1);
         dicees.put(5, 1);
-        assertEquals(0, SDSS.calculateDiceScore(dicees));
-        dicees.clear();
-        dicees.put(7, 1);
+        dicees.put(6, 1);
         assertEquals(0, SDSS.calculateDiceScore(dicees));
     }
 
