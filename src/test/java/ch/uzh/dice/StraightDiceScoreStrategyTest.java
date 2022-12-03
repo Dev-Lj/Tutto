@@ -85,64 +85,36 @@ public class StraightDiceScoreStrategyTest {
     }
 
     @Test
-    public void calculateRemainingDice() {
+    public void RemainingDice1Diff() {
         dicees.clear();
         scoredDicees.clear();
         resultDicees.clear();
         dicees.put(1, 6);
         assertEquals(5, SDSS.calculateRemainingDice(dicees, 6));
+    }
+
+    @Test
+    public void RemainingDice2Diff() {
         dicees.clear();
-        dicees.put(3, 6);
-        assertEquals(5, SDSS.calculateRemainingDice(dicees, 6));
-        dicees.clear();
-        dicees.put(6, 6);
-        assertEquals(5, SDSS.calculateRemainingDice(dicees, 6));
-        dicees.clear();
+        scoredDicees.clear();
+        resultDicees.clear();
         dicees.put(6, 5);
         dicees.put(4, 1);
         assertEquals(4, SDSS.calculateRemainingDice(dicees, 6));
+    }
+
+    @Test
+    public void RemainingDice6Diff() {
         dicees.clear();
-        dicees.put(6, 4);
-        dicees.put(1, 1);
-        dicees.put(2, 1);
-        assertEquals(3, SDSS.calculateRemainingDice(dicees, 6));
-        dicees.clear();
+        scoredDicees.clear();
+        resultDicees.clear();
         dicees.put(4, 1);
         dicees.put(3, 1);
-        dicees.put(6, 2);
-        dicees.put(1, 1);
-        dicees.put(2, 1);
-        assertEquals(1, SDSS.calculateRemainingDice(dicees, 6));
-        dicees.clear();
-        dicees.put(1, 1);
-        dicees.put(2, 1);
-        dicees.put(3, 2);
-        dicees.put(4, 2);
-        assertEquals(2, SDSS.calculateRemainingDice(dicees, 6));
-        dicees.clear();
-        dicees.put(6, 6);
-        assertEquals(5, SDSS.calculateRemainingDice(dicees, 6));
-        dicees.clear();
-        dicees.put(5, 1);
-        assertEquals(5, SDSS.calculateRemainingDice(dicees, 6));
-        dicees.clear();
-        dicees.put(2, 2);
-        dicees.put(3, 2);
-        dicees.put(4, 2);
-        assertEquals(3, SDSS.calculateRemainingDice(dicees, 6));
-        dicees.clear();
-        dicees.put(1, 1);
-        dicees.put(2, 1);
-        dicees.put(3, 1);
-        dicees.put(4, 1);
-        dicees.put(5, 1);
         dicees.put(6, 1);
-        assertEquals(0, SDSS.calculateRemainingDice(dicees, 6));
-        dicees.clear();
+        dicees.put(5, 1);
         dicees.put(1, 1);
         dicees.put(2, 1);
-        dicees.put(3, 1);
-        assertEquals(0, SDSS.calculateRemainingDice(dicees, 3));
+        assertEquals(0, SDSS.calculateRemainingDice(dicees, 6));
     }
 
 }
