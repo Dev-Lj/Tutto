@@ -92,6 +92,16 @@ public class ConsoleInputTest {
     }
 
     @Test
+    void testReadStringInput_blank() {
+        try {
+            TestingConsoleInput.readStringInput(testInput, "   ", 0, 5);
+            fail("Blank input was acceppted.");
+        } catch (Throwable e) {
+            assertEquals(IllegalArgumentException.class, e.getClass());
+        }
+    }
+
+    @Test
     void testReadCharacterInput() {
         List<Character> accepted = Arrays.asList('A', 'B');
         try {

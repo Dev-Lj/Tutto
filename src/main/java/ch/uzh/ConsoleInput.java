@@ -38,6 +38,8 @@ public class ConsoleInput {
             throw new IllegalArgumentException(String.format("Input length below defined minimum (%d)", minLength));
         } else if(input.length() > maxLength) {
             throw new IllegalArgumentException(String.format("Input length above defined maximum (%d)", maxLength));
+        } else if(input.isBlank()) {
+            throw new IllegalArgumentException("Input must not be blank");
         }
         return input;
     }
