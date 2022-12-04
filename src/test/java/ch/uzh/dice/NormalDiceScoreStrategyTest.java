@@ -40,7 +40,7 @@ public class NormalDiceScoreStrategyTest {
     }
 
     @Test
-    public void Dice4ScoreNotTrump5() {
+    public void Dice4ScoreTrump5() {
         dicees.clear();
         dicees.put(5, 4);
         assertEquals(550, NDSS.calculateDiceScore(dicees));
