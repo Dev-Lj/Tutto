@@ -12,6 +12,7 @@ public class PlayerTurn {
         TurnStrategy turnStrategy = currentCard.getStrategy();
         Command postTurnCommand = turnStrategy.playTurn(this);
         this.score += turnStrategy.getScore();
+        System.out.println(""); // Blank Line after PlayerTurn to improve UX
         return postTurnCommand;
     }
 

@@ -12,6 +12,7 @@ import ch.uzh.dice.DiceManager;
 import ch.uzh.dice.MockDiceManager;
 import ch.uzh.dice.NormalDiceScoreStrategy;
 import ch.uzh.dice.StraightDiceScoreStrategy;
+import ch.uzh.turn.PlayerTurn;
 
 import java.lang.reflect.Method;
 
@@ -21,10 +22,10 @@ public class PlusMinusTurnTest
     MockDiceManager aMockDiceManager = new MockDiceManager( new StraightDiceScoreStrategy());
     PlusMinusTurn aPlusMinusTurn = new PlusMinusTurn();
 
-    private Command invoke_evaluateTurn(PlusMinusTurn aPlusMinusTurn, DiceManager aDiceManager) throws Throwable{
-        Method method = PlusMinusTurn.class.getDeclaredMethod("evaluateTurn", DiceManager.class);
+    private Command invoke_evaluateTurn(PlusMinusTurn aPlusMinusTurn, DiceManager aDiceManager, PlayerTurn aPlayerTurn) throws Throwable{
+        Method method = PlusMinusTurn.class.getDeclaredMethod("evaluateTurn", DiceManager.class, PlayerTurn.class);
         method.setAccessible(true);
-        return (Command) method.invoke(aPlusMinusTurn, aDiceManager);
+        return (Command) method.invoke(aPlusMinusTurn, aDiceManager, aPlayerTurn);
 
     }
 
@@ -39,7 +40,7 @@ public class PlusMinusTurnTest
         aMockDiceManager.setIsTutto(true);
 
         try {
-            Command aCommand = invoke_evaluateTurn(aPlusMinusTurn, (DiceManager) aMockDiceManager);
+            Command aCommand = invoke_evaluateTurn(aPlusMinusTurn, (DiceManager) aMockDiceManager, new PlayerTurn());
             assertEquals(1000, aPlusMinusTurn.getScore());
             assertTrue(aCommand instanceof PlusMinusCommand);
         } catch (Throwable e) {
@@ -52,7 +53,7 @@ public class PlusMinusTurnTest
         aMockDiceManager.setIsTutto(false);
         
         try {
-            Command aCommand = invoke_evaluateTurn(aPlusMinusTurn, (DiceManager) aMockDiceManager);
+            Command aCommand = invoke_evaluateTurn(aPlusMinusTurn, (DiceManager) aMockDiceManager, new PlayerTurn());
             assertEquals(0, aPlusMinusTurn.getScore());
             assertTrue(aCommand instanceof NullCommand);
         } catch (Throwable e) {

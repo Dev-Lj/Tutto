@@ -30,7 +30,7 @@ public class FireworksTurn implements TurnStrategy{
         while(!aDiceManager.hadNullTurn() && !aDiceManager.isTutto()){
             // Ask user to roll the Dice
             Character[] acceptedInputs = {'R'};
-            aConsoleInput.getCharacterInput(acceptedInputs,"Please enter R to roll the dice. You're not allowed to stop your turn.");
+            aConsoleInput.getCharacterInput(acceptedInputs,"Please enter R to roll the dice. You're not allowed to stop your turn.  ");
 
             // Roll and Display Dice
             aDiceManager.rollDice();

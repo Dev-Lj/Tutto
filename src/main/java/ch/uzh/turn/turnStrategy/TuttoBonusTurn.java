@@ -32,6 +32,7 @@ public class TuttoBonusTurn extends StoppableTurn{
         if (super.isTutto()) {
             return super.getScore() + bonus;
         }
+        //Return 0 if Player lost turn or scored Points if Turn was ended voluntarily
         return super.getScore();
     }
     

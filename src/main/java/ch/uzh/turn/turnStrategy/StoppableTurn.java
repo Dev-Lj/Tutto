@@ -19,6 +19,7 @@ public abstract class StoppableTurn implements TurnStrategy{
     private void computeTurn(DiceManager aDiceManager){
         if (aDiceManager.hadNullTurn()){
             hasLost = true;
+            score = 0;
         }
         isTutto = aDiceManager.isTutto();
     }
@@ -27,7 +28,7 @@ public abstract class StoppableTurn implements TurnStrategy{
         while(!aDiceManager.hadNullTurn() && !aDiceManager.isTutto()){
             // Ask user wheter to roll the Dice or end Turn prematurely
             Character[] acceptedInputs = {'R','E'};
-            char aUserInput = aConsoleInput.getCharacterInput(acceptedInputs,"Decide wheter you want to Roll the dice or End your Turn. (R/E)");
+            char aUserInput = aConsoleInput.getCharacterInput(acceptedInputs,"Decide wheter you want to Roll the dice or End your Turn. (R/E)  ");
 
             if(aUserInput == 'E'){return aDiceManager;}
 

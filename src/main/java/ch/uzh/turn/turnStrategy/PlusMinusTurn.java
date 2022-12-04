@@ -17,14 +17,14 @@ public class PlusMinusTurn implements TurnStrategy {
         DiceManager aDiceManager = new DiceManager(6, new NormalDiceScoreStrategy());
 
         aDiceManager = turnLoop(aDiceManager, ConsoleInput.instance());
-        return evaluateTurn(aDiceManager);
+        return evaluateTurn(aDiceManager, currentTurn);
     }
 
     private DiceManager turnLoop(DiceManager aDiceManager, ConsoleInput aConsoleInput){
         while(!aDiceManager.hadNullTurn() && !aDiceManager.isTutto()){
             // Ask user to roll the Dice
             Character[] acceptedInputs = {'R'};
-            aConsoleInput.getCharacterInput(acceptedInputs,"Please enter R to roll the dice. You're not allowed to stop your turn.");
+            aConsoleInput.getCharacterInput(acceptedInputs,"Please enter R to roll the dice. You're not allowed to stop your turn.  ");
 
             // Roll and Display Dice
             aDiceManager.rollDice();
@@ -33,12 +33,13 @@ public class PlusMinusTurn implements TurnStrategy {
         return aDiceManager;
     }
 
-    private Command evaluateTurn(DiceManager aDiceManager){
+    private Command evaluateTurn(DiceManager aDiceManager, PlayerTurn currentTurn){
         if (aDiceManager.isTutto()) {
             score = 1000;
             return new PlusMinusCommand();
         } else {
             score = 0;
+            currentTurn.looseTurn();
             return new NullCommand();
         }
     }
