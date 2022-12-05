@@ -6,8 +6,6 @@ package ch.uzh;
  */
 public class App 
 {
-    public final static boolean DEBUG_MODE = false;
-
     public static void main( String[] args )
     {
         Game game = Game.createNewGame();

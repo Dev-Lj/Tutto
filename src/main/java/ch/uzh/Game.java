@@ -23,12 +23,7 @@ public class Game {
     }
 
     public static Game createNewGame() {
-        int requiredScoreToWin;
-        if (App.DEBUG_MODE) {
-            requiredScoreToWin = 6000;
-        } else {
-            requiredScoreToWin = ConsoleInput.instance().getNumberInput(1, 10000, "Amount of points to win the game: ");
-        }
+        int requiredScoreToWin = ConsoleInput.instance().getNumberInput(1, 10000, "Amount of points to win the game: ");
         return new Game(Deck.createDefaultDeck(), Lobby.createNewLobby() ,requiredScoreToWin);
     }
 
