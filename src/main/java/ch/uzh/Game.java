@@ -27,7 +27,7 @@ public class Game {
         if (App.DEBUG_MODE) {
             requiredScoreToWin = 6000;
         } else {
-            requiredScoreToWin = ConsoleInput.instance().getNumberInput(0, 10000, "Amount of points to win the game: ");
+            requiredScoreToWin = ConsoleInput.instance().getNumberInput(1, 10000, "Amount of points to win the game: ");
         }
         return new Game(Deck.createDefaultDeck(), Lobby.createNewLobby() ,requiredScoreToWin);
     }
